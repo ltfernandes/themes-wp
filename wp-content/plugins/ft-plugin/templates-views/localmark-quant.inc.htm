@@ -1,0 +1,6 @@
+<button type="button" class="btn btn-primary"
+    onclick="selecionarLugares('{{plan.id}}','{{index_plan}}','{{plan.plan}}')">Selecionar (<span
+        id="lugar-quant-{{index_plan}}">0</span>)</button>
+<input type="hidden" class="plano_quant" id="quant_{{index_plan}}" name="quant[{{index_plan}}]" rel-id="{{index_plan}}">
+<input type="hidden" id="lugares_{{index_plan}}" name="lugares[{{index_plan}}]">
+<input type="hidden" id="k_{{index_plan}}" name="k[{{index_plan}}]" value="S">

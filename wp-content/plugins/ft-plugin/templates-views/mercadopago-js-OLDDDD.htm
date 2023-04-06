@@ -1,0 +1,20 @@
+<script>
+    jQuery(document).ready(function ($) {
+
+    });
+
+    function initPaymentGW() {
+
+        var $form = document.querySelector('#frm-pagar');
+        Mercadopago.createToken($form, function (status, response) {
+            //console.log(status);
+            //console.log(response);
+            if (status != 200 && status != 201) {
+                initPayment('FAIL', 'Por favor, verifique os dados do cartão.')
+            } else {
+                $('#tokenCard').val(response.id);
+                initPayment('OK', '')
+            }
+        });
+    }
+</script>

@@ -1,0 +1,340 @@
+{% if (event.title) %}
+
+<script>
+    eventViewFBPixel('{{ event.title }}');
+</script>
+
+
+<div class="container">
+    {% if (partner.id) %}
+    <div class="alert alert-success h4">Parabéns! você chegou até aqui através de <b>{{partner.name}}</b></div>
+    {% endif %}
+
+    <div class="row pl-md-3 pr-md-3">
+        <div class="col-md-12 col-lg-12 mb-3 nav-page">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-tickets-tab" data-toggle="tab" href="#nav-tickets"
+                        role="tab" aria-controls="nav-tickets" aria-selected="true">Ingressos</a>
+
+                    <a class="nav-item nav-link" id="nav-details-tab" data-toggle="tab" href="#nav-details" role="tab"
+                        aria-controls="nav-details" aria-selected="false">Detalhes</a>
+
+                    {% if (event.video_embed or event.audio_embed) %}
+                    <a class="nav-item nav-link" id="nav-midia-tab" data-toggle="tab" href="#nav-midia" role="tab"
+                        aria-controls="nav-midia" aria-selected="false">Mídia</a>
+                    {% endif %}
+
+                    {% if (event.ticketpickup_description) %}
+                    <a class="nav-item nav-link" id="nav-ticketpickup-tab" data-toggle="tab" href="#nav-ticketpickup"
+                        role="tab" aria-controls="nav-ticketpickup" aria-selected="false">Retirada</a>
+                    {% endif %}
+                </div>
+            </nav>
+
+            <div class="tab-content" id="nav-tabContent">
+
+                <div class="tab-pane fade show active" id="nav-tickets" role="tabpanel"
+                    aria-labelledby="nav-tickets-tab">
+                    <form name="frm-event" id="frm-event" action="#" method="POST">
+                        <div class="row p-4 justify-content-end">
+                            <div class="col-lg-7 img-front-cover">
+                                {% if gallery %}
+                                {% include "gallery-slider.inc.htm" %}
+                                {% else %}
+                                <img class="img-fluid" src="{{event.image_face}}" alt="">
+                                {% endif %}
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="row h-100">
+                                    <div class="col-12">
+                                        <h2>{{ event.title }}</h2>
+                                        <h6><span class="badge badge-primary classification">Classificação:
+                                                {{ (event.classification) ? event.classification~' anos' : 'Livre'}}</span>
+                                            <!--<span class="badge badge-secondary">Compartilhar</span>-->
+                                        </h6>
+                                        <div class="eventdescription">
+                                            {{ event.description_short }}
+                                        </div>
+                                    </div>
+                                    <div class="col-12 align-self-end">
+                                        {% include "formcupom.inc.htm" %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% if (vendas_off == 'S') %}
+                            <div class="alert alert-info text-center">Aguarde abertura das vendas online.</div>
+
+                            {% elseif (event.sales_closed=='S') %}
+                            <div class="alert alert-info text-center sales_closed"><b>Vendas Encerradas dia
+                                    {{event.sales_closed_date|date('d/m/Y')}} {{event.sales_closed_time|slice(0,5)}}</b>
+                            </div>
+
+                            {% else %}
+
+
+                            {# Lista de planos #}
+                            {% set col = 12 %}
+                            {% set col_button = 2 %}
+
+                            <div class="col-lg-{{col}} col-12 mt-md-2 mt-4 productselection">
+                                {% if(event.event_date) %}
+                                <div class="row bg-light my-2 py-2">
+                                    <div class="col-12">
+                                        <h3 class="eventlocaldate">
+                                            <div class="badge badge-info">
+                                                {{event.week|slice(0, 3)}}
+                                            </div>
+                                            <span id="data_visita_view">{{ event.event_date|date('d/m/Y') }}</span>
+                                            <span
+                                                id="hora_visita_view">{{ (event.event_hour) ? event.event_hour|slice(0,5):'' }}</span>
+                                            | {{event.local}}
+                                            {% if (event.main_attraction) %}
+                                                 <br><b>{{ event.main_attraction }}</b>
+                                            {% endif %}
+                                        </h3>
+                                        <small>
+                                            {{event.address}}, {{ event.district}}
+                                            <br>
+                                            {{event.city}}/{{event.state}} | CEP: {{event.zipcode}}
+                                        </small>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <div id="product-list">
+                                    {% include "productlist-event.inc.htm" %}
+                                </div>
+                                {% include "finalysale.inc.htm" %}
+
+                                <div class="alert alert-info text-center sales_closed"><b>Encerramento das vendas:
+                                        {{event.sales_closed_date|date('d/m/Y')}}
+                                        {{event.sales_closed_time|slice(0,5)}}</b></div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="nav-details" role="tabpanel" aria-labelledby="nav-details-tab">
+                    <div class="row p-4">
+                        <div class="col-lg-7">
+                            <div class="details-text">
+                                {{ event.description	}}
+                            </div>
+                        </div>
+                        <div class="col-lg-5 address">
+                            <h2>Local</h2>
+                            <h5>{{event.local}}</h5>
+                            <p>{{event.address}}, {{ event.district}}</p>
+                            <p>{{event.city}}/{{event.state}} | CEP: {{event.zipcode}}</p>
+                            {% if(event.local_site)%}
+                            <a href="{{ event.local_site }}" target="_blank"
+                                rel="noopener noreferrer">{{ event.local_site }}</a>
+                            {% endif %}
+                            <div class="mt-2">
+                                {{event.embeb_map}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if (event.video_embed or event.audio_embed) %}
+                <div class="tab-pane fade" id="nav-midia" role="tabpanel" aria-labelledby="nav-midia-tab">
+                    <div class="row p-4">
+                        <div class="col-lg-12">
+                            <div class="row midia text-center">
+                                {%if (event.audio_embed)%}
+                                <div class="col-lg-6">{{event.audio_embed}}</div>
+                                {% endif %}
+                                {%if (event.video_embed)%}
+                                <div class="col-lg-6">{{event.video_embed}}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if (event.ticketpickup) %}
+                <div class="tab-pane fade" id="nav-ticketpickup" role="tabpanel" aria-labelledby="nav-ticketpickup-tab">
+                    <div class="row p-4">
+                        <div class="col-lg-12">
+                            <h2>Retirada de ingressos <span class="badge badge-secondary">{{event.ticketpickup}}</span>
+                            </h2>
+                            <div class="text-pickup">
+                                {{event.ticketpickup_description}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info">Não disponível no momento!</div>
+{% endif %}
+
+{% if (event.local_map) %}
+<style>
+    .lugarmap {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        opacity: 0.6;
+        z-index: 110000;
+        text-align: center;
+    }
+
+    .lugarmap-disponivel {
+        background: yellow;
+        cursor: pointer;
+    }
+
+    .lugarmap-selecionado {
+        background: blue;
+        cursor: pointer;
+    }
+
+    .lugarmap-reservado {
+        background: #cccccc;
+        cursor: pointer;
+    }
+</style>
+
+<script>
+
+    function selecionarLugares(id, index, plan) {
+
+        x_renderLocalMap(id, plan,'{{ event.type }}','{{ event.id }}', function (res) {
+
+            $("#local_map").modal('show');
+
+
+            $('#local_plan').html(plan);
+            $('.lugarmap').remove();
+
+            console.log('renderiza');
+
+            var lugares_old = $('#lugares_' + index).val();
+
+            if (lugares_old) {
+                var selecionados = $('#lugares_' + index).val().split(",");
+            }
+
+            $.each(res, function (i, item) {
+                if ($.inArray(item.id_lugar, selecionados) !== -1) {
+                    item.class = 'lugarmap-selecionado';
+                }
+                $("#mapimg").append('<div class="lugarmap ' + item.class + '" title="' + item.nome + ' ' + item.descricao + '" id="lugar-' + item.id_lugar + '" data-id="' + item.id_lugar + '" data-index="' + index + '" style="top:' + item.ytop + 'px; left:' + item.xleft + 'px"></div>');
+            });
+
+            $(".lugarmap").click(function () {
+
+                var id = $(this).attr('data-id');
+                var index = $(this).attr('data-index');
+
+                console.log(id,index);
+
+                if ($(this).hasClass("lugarmap-disponivel")) {
+                    //Ajusta botão:
+                    $(this).addClass('lugarmap-selecionado');
+                    $(this).removeClass('lugarmap-disponivel');
+
+                    //Ajusta a quantidade no botão:
+                    var quant = parseInt($('#lugar-quant-' + index).html());
+                    var new_quant = quant + 1;
+                    $('#lugar-quant-' + index).html(new_quant);
+                    var sel = $('#lugares_' + index).val();
+                    $('#lugares_' + index).val(sel + id + ',');
+                    $('#quant_' + index).val(new_quant);
+                }
+                else if ($(this).hasClass("lugarmap-selecionado")) {
+                    //Ajusta classes:
+                    $(this).addClass('lugarmap-disponivel');
+                    $(this).removeClass('lugarmap-selecionado');
+
+                    //Ajusta a quantidade no botão:
+                    var quant = parseInt($('#lugar-quant-' + index).html());
+                    var lugares_old = $('#lugares_' + index).val();
+
+                    if (quant > 1) {
+                        var new_quant = quant - 1;
+                        $('#lugar-quant-' + index).html(new_quant);
+                        var remover = id + ',';
+                        var lugares = replaceAll(lugares_old, remover, '');
+                        $('#lugares_' + index).val(lugares);
+                        $('#quant_' + index).val(new_quant);
+                    }
+                    else {
+                        $('#lugar-quant-' + index).html('0');
+                        $('#lugares_' + index).val("");
+                        $('#quant_' + index).val(0);
+                    }
+                }
+
+                calcTotalcompra();
+
+            });
+
+        });
+    }
+
+</script>
+
+<div class="modal fade" id="local_map" tabindex="-1" aria-labelledby="local_map" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen" style="max-width: none;margin: 0;">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Selecione o lugar para o plano <b><span id="local_plan"></span></b></h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <b>Atenção:</b>
+                    <br>Seus lugares selecionados somente serão reservados quando avançar para a
+                    <b>Finalização da Compra</b>.
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div
+                            style="display:inline-block;width:24px; height:24px; background:yellow; border-radius: 50%;">
+                        </div> AMARELO: <b>Lugares Disponíveis</b>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div style="display:inline-block;width:24px; height:24px; background:blue; border-radius: 50%;">
+                        </div>
+                        AZUL: <b>Seus Lugares Selecionados</b>
+                    </div>
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div
+                            style="display:inline-block;width:24px; height:24px; background:#cccccc; border-radius: 50%;">
+                        </div>
+                        CINZA: <b>Lugares Ocupados</b>
+                    </div>
+                </div>
+                <div style="position:relative;width:100%;overflow-x:auto;overflow-y:hide">
+                    <div id="mapimg">
+                        <img src="{{event.local_map}}" style="width:inherit;max-width:none !important">
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% if (scripts) %}
+{% for content in scripts %}
+{{ content|raw }}
+{% endfor %}
+{% endif %}

@@ -1,0 +1,11 @@
+<p class="post-attributes-label-wrapper parent-id-label-wrapper">
+    <label for="my_meta_box_post_type" class="post-attributes-label">Selecione a página do evento ou atração que deseja vincular a galeria:</label>
+</p>
+<select name='galeria_evento' id='galeria_evento'>
+    <option value="0">(sem página vinculada)</option>
+    {% for event in events %}
+    <option value="{{ event.id }}" id="{{ event.id }}" {{ (event.id == id) ? "selected" : "" }}>
+        {{ event.title }}
+    </option>
+    {% endfor %}
+</select>

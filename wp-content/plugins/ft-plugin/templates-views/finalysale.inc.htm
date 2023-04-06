@@ -1,0 +1,37 @@
+<div class="row pb-2 pt-4">
+    <div class="col-12 col-lg-6 text-right offset-lg-6">
+        <div class="row">
+            <div class="col-6 col-lg-6">
+                <h6>Subtotal:</h6>
+                <h6>Taxas:</h6>
+                <h5>Total:</h5>
+            </div>
+            <div class="col-6 col-lg-6">
+                <h6 id="valor_compra">R$ 00,00</h6>
+                <h6 id="total_taxa">R$ 00,00</h6>
+                <h5 id="total_compra">R$ 00,00</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row pt-2 justify-content-end">
+    {% if vendas_carrinho=='S' %}
+    <div class="col-lg-{{col_button}} pb-2">
+        <button class="btn btn-block btn-primary" id="btn-add-carrinho" type="button" data-loading-text="Aguarde ..." data-original-text="<i class='fas fa-cart-plus'></i> Adicionar ao Carrinho" onclick="addCarrinho()"><i class="fas fa-cart-plus"></i>Adicionar ao carrinho</button>
+    </div>
+    {% endif %}
+    <div class="col-lg-{{col_button}} pb-2">
+        <input type="hidden" name="data_visita" id="data_visita" value="{{date_visit}}">
+        <input type="hidden" name="hora_visita" id="hora_visita" value="">
+        <input type="hidden" name="ide" id="ide" value="{{ide}}" rel-title="{{event.title}}">
+        <input type="hidden" name="idp" id="idp" value="{{idp}}" rel-title="{{event.title}}">
+        <input type="hidden" id="type_event" value="{{event.type|lower()}}">
+
+        <button class="btn btn-block btn-success" id="btn-finalizar-compra" type="button" data-loading-text="Aguarde ..." data-original-text="<i class='fas fa-check'></i> Finalizar Compra" onclick="finalizarCompra()"><i class="fas fa-check"></i> Finalizar Compra</button>
+    </div>
+</div>
+
+<script>
+    impressaoGA();
+</script>

@@ -1,0 +1,46 @@
+
+{% if (pedidos) %}
+
+    <div class="row">
+        
+    {% for pedido in pedidos %}
+        <div class="col-12 col-md-6 col-lg-6 p-3">
+           <a href="{{ url_pedido }}/{{ pedido.hash}}" style="text-decoration:none;color:inherit" title="Abrir o pedido id #{{ pedido.id }} status {{ pedido.status }}">
+                <div class="row">
+                    <div class="col-lg-2 col-2 rounded-circle ml-auto d-flex align-items-center text-white bg-{{ pedido.label_color }}">
+                        <div class="w-100 text-center">
+                            {% if (pedido.status_type=='APROVADA') %}
+                                <i class="fa fa-thumbs-up fa-3x"></i>
+                            {% elseif (pedido.status_type=='ANALISE') %}
+                                <i class="fas fa-hourglass fa-3x"></i>
+                            {% else %}
+                                <i class="fa fa-thumbs-down fa-3x"></i>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-10 col-10">
+                        <div class="text-truncate" style="padding:5px 0px 5px 0px;font-size:1.2em;">
+                            <b><span class="badge badge-{{ pedido.label_color }}">#{{ pedido.id }}</span> {{ pedido.status }}</b>
+                        </div>
+                        <div>
+                            <i class="fa fa-ticket"></i> Quantidade de ingressos: <b>{{pedido.tickets}}</b>
+                        </div>
+                        <div class="small">
+                            <span style="font-size:0.9em !important;color:#666">
+                                <b>DATA DE EMISSÃO:</b>
+                                
+                                <i class="fa fa-calendar" style="margin-right:5px"></i> <b>{{pedido.send_date|date('d/m/Y') }}</b>
+                                <i class="fa fa-clock" style="margin-left:5px"></i> {{pedido.send_hour|date('H:i') }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+
+    </div>
+
+{% else %}
+    <div class="alert alert-info">Nenhum pedido emitido até o momento!</div>
+{% endif %}

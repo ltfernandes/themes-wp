@@ -1,0 +1,105 @@
+<form id="frm-pagar" name="frm-pagar" method="post" action="#">
+    <div class="row" id="row-box">
+        <div class="col-md-12 col-12">
+            <!--Tabela Produtos-->
+            <div class="payment-products">
+
+                {% for id_event,event in carrinho %}
+
+                {% if (event.produtos) %}
+                <div class="cart-event" ga-id-event="{{ id_event }}">
+                    <div class="cart-event-title" id="cart-event-{{ id_event }}" ga-event-title="{{event.titulo}}" ga-event-date="{{event.data_visita}}">{{event.titulo}}</div>
+
+                    {% if (event.data_visita) %}
+                    <div class="display_date_visit">Data da visita: {{event.data_visita}} {{event.hora_visita|slice(0,5)}}</div>
+                    {% endif %}
+                    <div class="row cart-event-products-title">
+                        <div class="col-md-5 col-12 text-center">
+                            Produto
+                        </div>
+                        <div class="col-md-3 col-3 text-center">
+                            Valor de Venda
+                        </div>
+                        <div class="col-md-2 col-6 text-center">
+                            Quant.
+                        </div>
+                        <div class="col-md-2 col-3 text-center">
+                            Total
+                        </div>
+                    </div>
+
+                    {% for index,item in event.produtos %}
+                    {% include "payment-itens.inc.htm" %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% include "cart-totais.inc.htm" %}
+            </div>
+        </div>
+        <div class="col-md-12 col-12" id="formaPag">
+            {% if (totais.total_compra > 0) %} 
+            {% include 'payment-methods.inc.htm' %}
+            {% include 'payment-userdata.inc.htm' %}
+            {% include 'payment-creditcard.inc.htm' %}
+            {% else %}
+            {% include 'payment-userdata.inc.htm' %}
+            {% endif %}
+            <!--Termo se existir-->
+            {% if (termos_compra)%}
+            <div class="row pb-2">
+                <div class="col-12 termos_compra">{{termos_compra}}</div>
+                <div class="col-12 pt-2">
+                    <input type="checkbox" id="termo_compra" name="termo_compra" value="S" required>
+                    <label for="termo_compra">
+                        <b>Declaro que li e estou de acordo com o termo acima.</b>
+                    </label>
+                </div>
+            </div>
+            {% endif %}
+            <!--Botão de Pagar-->
+            <div class="row">
+                <div class="col-12" id="msg-callback"></div>
+            </div>
+            <div class="form-row  " id="div-submit">
+                <div class="form-group col-md-6 col-12" style="align-self: flex-end;">
+                    <input type="hidden" name="session_id" id="session_id" value="{{ gw.session_id }}">
+                    <input type="hidden" name="tokenCard" id="tokenCard">
+                    <input type="hidden" name="hash" id="hash">
+                    <input type="hidden" name="id_pgto" id="id_pgto">
+                    <input type="hidden" name="transaction_id" id="transaction_id">
+                    <input type="hidden" name="transaction_data" id="transaction_data">
+                    {% set buttonTxt = totais.total_compra > 0 ? 'Efetuar Pagamento' : 'Finalizar Pedido' %}                    
+                    <button type="button" class="btn btn-mg btn-block btn-success" id="btn-pagar" data-loading-text="Aguarde ..." data-reset-text="{{buttonTxt}}" onclick="efetuarPagamento()">{{buttonTxt}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<script>
+    initCheckoutGA();
+    initCheckoutFBPixel();
+</script>
+
+{% include "recaptcha-v3.inc.htm" %}
+
+
+{% if (gw.gateway=='PAGSEGURO') %}
+{% include "pagseguro-js.htm" %}
+
+{% elseif (gw.gateway=='GETNET') %}
+{% include "getnet-js.htm" %}
+
+{% elseif (gw.gateway=='MERCADO PAGO') %}
+{% include "mercadopago-js.htm" %}
+
+{% elseif (gw.gateway=='PAGSEGURO ORDER') %}
+{% include "pagseguro-order-js.htm" %}
+
+{% elseif (gw.gateway=='PAGARME-DECONTINUADO') %}
+{% include "pagarme-js.htm" %}
+{% endif %}
+
+{% if  ('PAYPAL' in gw.fpgtos)  %}
+{% include "paypal-js.htm" %}
+{% endif %}

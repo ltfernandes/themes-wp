@@ -1,0 +1,17 @@
+
+{% if (desativar_cupom!='S') %}
+    <div class="input-group field-cupom">
+        <div class="input-group-prepend">
+            <span class="input-group-text">#</span>
+        </div>
+        <input type="text" class="form-control" id="cupom" name="cupom" placeholder="Informe o código do cupom"
+            value="{{ cupom }}">
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" onclick="validaCupom('{{event.type}}')">Validar</button>
+        </div>
+    </div>
+    {% if (event.msg_validate) %}
+    <div id="result-cupom" class="alert alert-{{ (event.validate_status=='OK')? "success" : "danger" }}">
+        {{ event.msg_validate }}</div>
+    {% endif %}
+{% endif %}

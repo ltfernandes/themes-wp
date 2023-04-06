@@ -1,0 +1,71 @@
+{% if(event.plans.status=='FAIL') %}
+<div class="alert alert-info msg-horario">{{ event.plans.msg }}</div>
+{% else %}
+
+{% if(event.plans) %}
+
+<div class="row pt-4 pb-2 itens-head ">
+    <div class="col-lg-6">
+        <p>Nome</p>
+    </div>
+    <div class="col-lg-3">
+        <p>Preço</p>
+    </div>
+    <div class="col-lg-3">
+        <p>Quantidade</p>
+    </div>
+</div>
+{% for index_plan,plan in event.plans %}
+<div class="row pt-2 pb-2 item products" ga-id="{{ index_plan }}" ga-name="{{ plan.plan }}" ga-price="{{ plan.price }}">
+    <div class="col-lg-6 align-self-center pt-2 pb-md-0 pb-3">
+
+        <b class="plan-name">{{ plan.plan }} {{ (plan.batch)? ' - '~plan.batch : '' }}</b>
+        
+        {{ (plan.convenio.id) ? "<div class='badge badge-success'><i class='fa fa-star'></i> com desconto do cartão</div>" : "" }}
+        {{ (plan.coupon_apply) ? "<div class='badge badge-success'>#"~cupom~"</div>" : "" }}
+        {% if (plan.description) %}
+        <div class="plan-description text-truncate"><a href="#plan-description-{{ index_plan }}" data-toggle="modal"
+                data-target="#plan-description-{{ index_plan }}">{{ plan.description|striptags }}</a></div>
+        {% include "modal-plan-description.htm" %}
+        {% endif %}
+    </div>
+    <div class="col-6 col-lg-3 align-self-center valor_plano" rel-valor="{{ plan.price }}">
+        {% if (plan.price_old > plan.price) %}
+        <small class="plan-price-old">de <span style="text-decoration: line-through;"
+                class="plan-price-old-value">R${{plan.price_old|number_format(2,',','.')}}</span></small><br>
+        {% endif %}
+        <span class="plan-price">R${{plan.price|number_format(2,',','.')}}</span>
+    </div>
+    <div class="col-6 col-lg-3 align-self-center">
+        {% if (plan.exhausted=='S') %}
+        <div class="plan-exhausted badge badge-danger">ESGOTADO</div>
+        {% elseif (plan.mapped=='S') %}
+        {% include "localmark-quant.inc.htm" %}
+        {% else %}
+        {% include "select-quant.inc.htm" %}
+        {% endif %}
+    </div>
+</div>
+<hr>
+{% endfor %}
+
+
+<script>
+    $(".plano_quant").change(function () {
+        calcTotalcompra($(this));
+
+        var value = $(this).val();
+        if(value){
+            var id = $(this).attr('rel-id');
+            selecionadoGA(id);
+            selecionadoFBPixel();
+        }
+        
+    });
+</script>
+{% elseif(event.msg) %}
+<div class="alert alert-info msg-horario">{{event.msg}}</div>
+{% else %}
+<div class="alert alert-info msg-horario">Nenhum plano disponível no momento!</div>
+{% endif %}
+{% endif %}

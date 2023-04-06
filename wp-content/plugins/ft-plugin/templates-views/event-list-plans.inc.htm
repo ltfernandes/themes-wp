@@ -1,0 +1,42 @@
+
+{% for id_plano,p in args.planos %}
+
+	<!--Plano -->
+	<div class="row pt-4 pb-2 {{ (p.valor_antigo > p.valor_venda) ? 'listaPlanosDesconto' : 'listaPlanos' }}">
+		<div class="col-md-5 col-6 nomePlano item">
+			<b>{{ p.nome }}</b>
+			{% if p.maisinfo %}
+			<p>
+				{{p.maisinfo}}
+			</p>
+		{% endif %}
+		</div>
+		<div class="col-md-3 col-6 valorPlano">
+			{% if p.valor_antigo > p.valor_venda %}
+				<small>
+					de
+					<span style="text-decoration: line-through;">
+						R$ {{ p.valor_antigo|number_format(2, ',', '.') }}
+					</span>
+				</small>
+				<br>
+			{% endif %}
+			R$ {{ p.valor_venda|number_format(2, ',', '.') }}
+		</div>
+		<div class="col-md-1 col-3 minusBtn">
+			<button type="button" class="btn btn-sm btn-danger btn-carrinho" id="btn-menos-R{{ id_plano }}" data-acao='DEL' data-ide='{{ p.fk_evento }}' data-id='R{{ id_plano }}'>
+				<i class="fas fa-minus"></i>
+			</button>
+		</div>
+		<div class="input-group input-group-sm col-md-2 col-4 qntdIngressos">
+			<input type="text" class="quant form-control quant-R{{ id_plano }}" data-plano="{{ p.nome }}" data-valor="{{ p.valor_venda }}" id="quant-R{{ id_plano }}" placeholder="0" maxlength="1" readonly value="0">
+		</div>
+		<div class="col-md-1 col-3 plusBtn">
+			<button type="button" class="btn btn-sm btn-success btn-carrinho" id="btn-mais-R{{ id_plano }}" data-acao='ADD' data-ide='{{ p.fk_evento }}' data-id='R{{ id_plano }}'>
+				<i class="fas fa-plus"></i>
+			</button>
+		</div>
+		
+	</div>
+	<hr>
+{% endfor %}

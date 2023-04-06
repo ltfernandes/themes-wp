@@ -1,0 +1,10 @@
+{% if(hours.status=='FAIL') %}
+    <div class="alert alert-info msg-horario">{{ hours.msg }}</div>
+{% elseif(hours.hours) %}
+    {% set largura = (hours.hours|length > 6)? 50:100 %}
+    {% for hour in hours.hours %}
+        <div class="w-{{ largura }} px-2"><button type="button" class="btn btn-outline-primary btn-block btn-hour mb-2" onclick="showProductsHour('{{ hour }}', this)">{{ hour }}</button></div>
+    {% endfor %}
+{% else %}
+    <div class="alert alert-info msg-horario">Nenhum horário disponível para o dia {{ date_visit }}.</div>
+{% endif %}

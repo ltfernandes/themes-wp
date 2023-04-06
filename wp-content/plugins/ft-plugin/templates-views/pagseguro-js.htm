@@ -1,0 +1,94 @@
+<script type="text/javascript"
+    src="https://stc.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.directpayment.js"></script>
+
+<script>
+    jQuery(document).ready(function ($) {
+        PagSeguroDirectPayment.setSessionId('{{ gw.session_id }}');
+    });
+
+    function getBrand(bin, id_conta){
+        if (bin) {
+            //$('#bandeira-img').html("Validando bandeira do cartão ...");
+            PagSeguroDirectPayment.getBrand({
+                cardBin: bin,
+                success: function (response) {
+                    var bandeira = response.brand.name;
+                    console.log(bandeira);
+                    $('#bandeira-img').html("<img src='https://stc.pagseguro.uol.com.br/public/img/payment-methods-flags/68x30/" + bandeira + ".png'>");
+                    $('#bandeira').val(bandeira);
+                },
+                error: function (response) {
+                    alert('A bandeira desse cartão não é aceita!');
+                    $("#cartao_num").val("");
+                    $('#cartao_num').focus();
+                    $('#bandeira-img').html("");
+                    $('#bandeira').val("");
+                },
+                complete: function (response) {
+                    //tratamento comum para todas chamadas
+                }
+            });
+        } //bin
+        else {
+            $('#bandeira-img').html("");
+            $('#bandeira').val("");
+        }
+    }
+
+    function initPaymentGW() {
+        console.log('FT-PG');
+
+        var fpgto = $('input:radio[name=fpgto]:checked').val();
+
+        if (fpgto == 'CREDITO') {
+            var titular = $('#cob_nome').val();
+            var cpf = $('#cob_documento').val();
+            var datanasc = $('#cob_datanasc').val();
+            var tel = $('#cob_tel').val();
+            var cartao_num = $('#cartao_num').val().replace(/\s/g, '');
+            var cartao_mes = $('#cartao_mes_exp').val();
+            var cartao_ano = $('#cartao_ano_exp').val();
+            var cartao_cvv = $('#cartao_cvv').val();
+            var bandeira = $('#bandeira').val();
+            var condicao = $('#condicao').val();
+
+            var param = {
+                cardNumber: cartao_num,
+                brand: bandeira,
+                cvv: cartao_cvv,
+                expirationMonth: cartao_mes,
+                expirationYear: cartao_ano,
+                success: function (response_card) {
+                    PagSeguroDirectPayment.onSenderHashReady(function (response_hash) {
+                        if (response_hash.status == 'error') {
+                            initPayment('FAIL', 'Falha ao gerar a hash')
+                        } else {
+                            $('#hash').val(response_hash.senderHash);
+                            $('#tokenCard').val(response_card.card.token);
+                            initPayment('OK', '')
+                        } //else hash
+                    }); //hash
+                },
+                error: function (response_card) {
+                    initPayment('FAIL', 'Falha ao gerar o token do cartão, certifique-se de que digitou os dados do cartão corretamente.')
+                },
+                complete: function (response_card) {
+                }
+            }
+            PagSeguroDirectPayment.createCardToken(param);
+        }
+        else if (fpgto == 'BOLETO') {
+            PagSeguroDirectPayment.onSenderHashReady(function (response) {
+                if (response.status == 'error') {
+                    initPayment('FAIL', 'Falha ao gerar a hash')
+                } else {
+                    $('#hash').val(response.senderHash);
+                    initPayment('OK', '')
+                }
+            });
+        }
+        else{
+            initPayment('OK','');
+        }
+    }
+</script>

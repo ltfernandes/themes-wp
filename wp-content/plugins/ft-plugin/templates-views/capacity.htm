@@ -1,0 +1,43 @@
+<h4>{{date|date('d/m/Y')}}</h4>
+
+{% if (table) %}
+<div class="table-responsive">
+    <table class="table table-bordered table-hover table-striped small">
+        <THEAD>
+            <tr>
+                <th class="text-center" rowspan="2"><B>HORÁRIO</B></th>
+                <th class="text-center" rowspan="2"><B>PASSEIO</B></th>
+                <th class="text-center" style="border-right:2px solid #000"><B>RESERVADO</B></th>
+                <th class="text-center" colspan="2" style="border-right:2px solid #000"><B>PAGO</B></th>
+                <th class="text-center" colspan="2" style="border-right:2px solid #000"><B>FREE</B></th>
+                <th class="text-center" colspan="2"><B>TOTAL</B></th>
+            </tr>
+            <tr>
+                <th class="text-center" style="border-right:2px solid #000"><B>TOTAL</B></th>
+                <th class="text-center"><B>IMP.</B></th>
+                <th class="text-center" style="border-right:2px solid #000"><B>TOTAL</B></th>
+                <th class="text-center"><B>IMP.</B></th>
+                <th class="text-center" style="border-right:2px solid #000"><B>TOTAL</B></th>
+                <th class="text-center"><B>IMP.</B></th>
+                <th class="text-center"><B>TOTAL</B></th>
+            </tr>
+        </THEAD>
+        <tbody>
+            {% for hora,h in table.horarios %}
+            <tr>
+                <td class="text-center h4"><B>{{h.horario|slice(0,5)}}</B></td>
+                <td class="text-center"><B>{{h.evento}}</B></td>
+                <td class="text-center" style="border-right:2px solid #000">{{h.RESERV.total ? h.RESERV.total : '-'}}</td>
+                <td class="text-center">{{h.PAG.entregue ? h.PAG.entregue : '-'}}</td>
+                <td class="text-center" style="border-right:2px solid #000">{{h.PAG.total ? h.PAG.total : '-'}}</td>
+                <td class="text-center">{{h.FREE.entregue ? h.FREE.entregue : '-'}}</td>
+                <td class="text-center" style="border-right:2px solid #000">{{h.FREE.total ? h.FREE.total : '-'}}</td>
+                <td class="text-center"><B>{{h.entregue ? h.entregue : '-'}}</B></td>
+                <td class="text-center"><B>{{h.total ? h.total : '-'}}</B></td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+{% endif %}

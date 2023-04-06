@@ -1,0 +1,468 @@
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<div style="display: none;">
+    <select id="form-checkout__issuer"></select>
+    <select id="form-checkout__installments"></select>
+    <input type="text" value="CPF" id="form-checkout__identificationType">
+    <input type="hidden" name="token" id="token">
+</div>
+<script>
+    var form_habilitado = true;
+
+    const mp = new MercadoPago("{{ gw.session_id }}", { locale: 'pt-BR' });
+    /*const mp = new MercadoPago("TEST-abc1b487-cf26-47df-9b3a-37c1f182cfd4", {locale: 'pt-BR'} );*/
+    const cardForm = mp.cardForm({
+        amount: "{{totais.total_compra|number_format(2,'.','')}}",
+        // iframe: false,
+        autoMount: true,
+        form: {
+            id: "frm-pagar",
+            cardNumber: {
+                id: "cartao_num",
+                placeholder: "Número do cartão",
+            },
+            cardExpirationMonth: {
+                id: "cartao_mes_exp",
+                placeholder: "MM/YY",
+            },
+            cardExpirationYear: {
+                id: "cartao_ano_exp",
+                placeholder: "MM/YY",
+            },
+            securityCode: {
+                id: "cartao_cvv",
+                placeholder: "Código de segurança",
+            },
+            cardholderName: {
+                id: "cob_nome",
+                placeholder: "Titular do cartão",
+            },
+            issuer: {
+                id: "form-checkout__issuer",
+                placeholder: "Banco emissor",
+            },
+            installments: {
+                id: "form-checkout__installments",
+                placeholder: "Parcelas",
+            },
+            identificationType: {
+                id: "form-checkout__identificationType",
+                placeholder: "Tipo de documento",
+            },
+            identificationNumber: {
+                id: "cob_documento",
+                placeholder: "Número do documento",
+            },
+            cardholderEmail: {
+                id: "cob_email",
+                placeholder: "E-mail",
+            },
+        },
+        callbacks: {
+            onFormMounted: error => {
+                if (error) return console.warn("Form Mounted handling error: ", error);
+            },
+            onInstallmentsReceived: (error, installments) => {
+                return false;
+            },
+            onSubmit: event => {
+                event.preventDefault();
+                if (form_habilitado) {
+                    form_habilitado = false;
+                    $('#btn-pagar').attr("disabled", true);
+
+                    console.log('FT-MP');
+                    showMsgTransaction('Processo de pagamento iniciado, por favor, aguarde ...');
+
+                    let cardToken = cardForm.createCardToken({
+                        cardNumber: $('#cartao_num').val(),
+                        cardholderName: $('#cob_nome').val(),
+                        cardExpirationMonth: $('#cartao_mes_exp').val(),
+                        cardExpirationYear: $('#cartao_ano_exp').val(),
+                        securityCode: $('#cartao_cvv').val(),
+                        identificationType: $('#form-checkout__identificationType').val(),
+                        identificationNumber: $('#cob_documento').val(),
+                    })
+                    cardToken.then(async function (result_promisse, erro) {
+
+                        token = result_promisse.token;
+                        $('#tokenCard').val(token);
+                        await efetuarPagamento();
+                        form_habilitado = true;
+                    }).catch((e) => {
+                        console.error(e.message); // "oh, no!"
+                        form_habilitado = true;
+                    });
+                } else {
+                    console.log('Processando. Aguarde...');
+                }
+            },
+            onError: (error, event) => {
+                form_habilitado = true;
+
+                if ($('#fpgto-cartao').is(":checked")) {
+
+                    if (error) {
+                        var message_erro = '';
+                        error.forEach(erro => {
+
+                            if (erros_mp[erro.message]) {
+                                message_erro = message_erro + erros_mp[erro.message].communication + '<br>';
+                            } else {
+                                message_erro = message_erro + erro.message + '<br>';
+                            }
+                        });
+                        initPayment('FAIL', message_erro);
+                    }
+
+                } else {
+                    efetuarPagamento();
+                }
+            },
+            onFetching: (resource) => {
+                //console.log("Fetching resource: ", resource);
+            },
+            onReady: () => {
+                //console.log("CardForm ready");
+            }
+        },
+    });
+    jQuery(document).ready(function ($) {
+        $("#btn-pagar").prop("onclick", null).off("click").removeAttr("type").attr("type", "submit");
+        $('#cob_documento').unmask().mask('99999999999');
+    });
+    var erros_mp = {
+        "parameter cardNumber can not be null/empty":
+        {
+            "code": "205",
+            "description": "parameter cardNumber can not be null/empty",
+            "communication": "Insira o número do cartão de crédito."
+        },
+        "parameter cardExpirationMonth can not be null/empty":
+        {
+            "code": "208",
+            "description": "parameter cardExpirationMonth can not be null/empty",
+            "communication": "Selecione o mês de validade."
+        },
+        "parameter cardExpirationYear can not be null/empty":
+        {
+            "code": "209",
+            "description": "parameter cardExpirationYear can not be null/empty",
+            "communication": "Selecione o ano de validade."
+        },
+        "parameter docType can not be null/empty":
+        {
+            "code": "212",
+            "description": "parameter docType can not be null/empty",
+            "communication": "Informe o tipo de identificação (CPF)."
+        },
+        "parameter identificationNumber can not be null/empty":
+        {
+            "code": "213",
+            "description": "parameter identificationNumber can not be null/empty",
+            "communication": "Informe a identificação (CPF)."
+        },
+        "The parameter cardholder.document.subtype can not be null or empty":
+        {
+            "code": "213",
+            "description": "The parameter cardholder.document.subtype can not be null or empty",
+            "communication": "Informe a identificação (CPF)."
+        },
+        "parameter docNumber can not be null/empty":
+        {
+            "code": "214",
+            "description": "parameter docNumber can not be null/empty",
+            "communication": "Informe corretamente o seu CPF."
+        },
+        "parameter cardIssuerId can not be null/empty":
+        {
+            "code": "220",
+            "description": "parameter cardIssuerId can not be null/empty",
+            "communication": "Informe o banco emissor."
+        },
+        "parameter cardholderName can not be null/empty":
+        {
+            "code": "221",
+            "description": "parameter cardholderName can not be null/empty",
+            "communication": "Insira o nome completo, como no cartão."
+        },
+        "parameter securityCode can not be null/empty":
+        {
+            "code": "224",
+            "description": "parameter securityCode can not be null/empty",
+            "communication": "Informe o código de segurança."
+        },
+        "invalid parameter cardNumber":
+        {
+            "code": "E301",
+            "description": "invalid parameter cardNumber",
+            "communication": "Corrija o número do cartão de crédito."
+        },
+        "invalid parameter securityCode":
+        {
+            "code": "E302",
+            "description": "invalid parameter securityCode",
+            "communication": "Corrija o código de segurança."
+        },
+        "invalid parameter cardholderName":
+        {
+            "code": "316",
+            "description": "invalid parameter cardholderName",
+            "communication": "Informe um nome válido."
+        },
+        "invalid parameter docType":
+        {
+            "code": "322",
+            "description": "invalid parameter docType",
+            "communication": "Corrija a sua identificação (CPF)."
+        },
+        "Invalid parameter cardholder.document.subtype":
+        {
+            "code": "323",
+            "description": "Invalid parameter cardholder.document.subtype",
+            "communication": "Corrija o número de identificação (CPF)."
+        },
+        "invalid parameter docNumber":
+        {
+            "code": "324",
+            "description": "invalid parameter docNumber",
+            "communication": "Confira o número de identificação (CPF)."
+        },
+        "invalid parameter cardExpirationMonth":
+        {
+            "code": "325",
+            "description": "invalid parameter cardExpirationMonth",
+            "communication": "Informe o mês de validade do cartão."
+        },
+        "invalid parameter cardExpirationYear":
+        {
+            "code": "326",
+            "description": "invalid parameter cardExpirationYear",
+            "communication": "Informe o ano de validade do cartão."
+        },
+        "Cannot operate between users from different countries":
+        {
+            "code": "106",
+            "description": "Cannot operate between users from different countries",
+            "communication": "Você não pode fazer pagamentos para outros países."
+        },
+        "Invalid number of shares for this payment_method_id":
+        {
+            "code": "109",
+            "description": "Invalid number of shares for this payment_method_id",
+            "communication": "Utilize outro cartão ou outro meio de pagamento."
+        },
+        "The action requested is not valid for the current payment state":
+        {
+            "code": "126",
+            "description": "The action requested is not valid for the current payment state",
+            "communication": "Não conseguimos processar seu pagamento."
+        },
+        "Cannot pay this amount with this paymentMethod":
+        {
+            "code": "129",
+            "description": "Cannot pay this amount with this paymentMethod",
+            "communication": "Utilize outro cartão ou outro meio de pagamento."
+        },
+        "Invalid users involved":
+        {
+            "code": "145",
+            "description": "Invalid users involved",
+            "communication": "Não conseguimos processar seu pagamento."
+        },
+        "The payer_id cannot do payments currently":
+        {
+            "code": "150",
+            "description": "The payer_id cannot do payments currently",
+            "communication": "Não conseguimos processar seu pagamento."
+        },
+        "The payer_id cannot do payments with this payment_method_id":
+        {
+            "code": "151",
+            "description": "The payer_id cannot do payments with this payment_method_id",
+            "communication": "Não conseguimos processar seu pagamento."
+        },
+        "Collector not allowed to operate":
+        {
+            "code": "160",
+            "description": "Collector not allowed to operate",
+            "communication": "Não conseguimos processar seu pagamento."
+        },
+        "Unavailable paymentmethod\tpayment_method_id is not available at this time.":
+        {
+            "code": "204",
+            "description": "Unavailable paymentmethod\tpayment_method_id is not available at this time.",
+            "communication": "Utilize outro cartão ou outro meio de pagamento."
+        },
+        "Already posted the same request in the last minute":
+        {
+            "code": "801",
+            "description": "Already posted the same request in the last minute",
+            "communication": "Você fez um pagamento similar recentemente. Tente novamente em instantes."
+        }
+    };
+
+    var erros_mp_onCardTokenReceived = {
+        "205":
+        {
+            "code": "205",
+            "description": "parameter cardNumber can not be null/empty",
+            "communication": "Insira o número do cartão de crédito."
+        },
+        "208":
+        {
+            "code": "208",
+            "description": "parameter cardExpirationMonth can not be null/empty",
+            "communication": "Selecione o mês de validade."
+        },
+        "209":
+        {
+            "code": "209",
+            "description": "parameter cardExpirationYear can not be null/empty",
+            "communication": "Selecione o ano de validade."
+        },
+        "212":
+        {
+            "code": "212",
+            "description": "parameter docType can not be null/empty",
+            "communication": "Informe o tipo de identificação (CPF)."
+        },
+        "213":
+        {
+            "code": "213",
+            "description": "The parameter cardholder.document.subtype can not be null or empty",
+            "communication": "Informe a identificação (CPF)."
+        },
+        "214":
+        {
+            "code": "214",
+            "description": "parameter docNumber can not be null/empty",
+            "communication": "Informe corretamente o seu CPF."
+        },
+        "220":
+        {
+            "code": "220",
+            "description": "parameter cardIssuerId can not be null/empty",
+            "communication": "Informe o banco emissor."
+        },
+        "221":
+        {
+            "code": "221",
+            "description": "parameter cardholderName can not be null/empty",
+            "communication": "Insira o nome completo, como no cartão."
+        },
+        "224":
+        {
+            "code": "224",
+            "description": "parameter securityCode can not be null/empty",
+            "communication": "Informe o código de segurança."
+        },
+        "E301":
+        {
+            "code": "E301",
+            "description": "invalid parameter cardNumber",
+            "communication": "Corrija o número do cartão de crédito."
+        },
+        "E302":
+        {
+            "code": "E302",
+            "description": "invalid parameter securityCode",
+            "communication": "Corrija o código de segurança."
+        },
+        "316":
+        {
+            "code": "316",
+            "description": "invalid parameter cardholderName",
+            "communication": "Informe um nome válido."
+        },
+        "322":
+        {
+            "code": "322",
+            "description": "invalid parameter docType",
+            "communication": "Corrija a sua identificação (CPF)."
+        },
+        "323":
+        {
+            "code": "323",
+            "description": "Invalid parameter cardholder.document.subtype",
+            "communication": "Corrija o número de identificação (CPF)."
+        },
+        "324":
+        {
+            "code": "324",
+            "description": "invalid parameter docNumber",
+            "communication": "Confira o número de identificação (CPF)."
+        },
+        "325":
+        {
+            "code": "325",
+            "description": "invalid parameter cardExpirationMonth",
+            "communication": "Informe o mês de validade do cartão."
+        },
+        "326":
+        {
+            "code": "326",
+            "description": "invalid parameter cardExpirationYear",
+            "communication": "Informe o ano de validade do cartão."
+        },
+        "106":
+        {
+            "code": "106",
+            "description": "Cannot operate between users from different countries",
+            "communication": "Você não pode fazer pagamentos para outros países."
+        },
+        "109":
+        {
+            "code": "109",
+            "description": "Invalid number of shares for this payment_method_id",
+            "communication": "Utilize outro cartão ou outro meio de pagamento."
+        },
+        "126":
+        {
+            "code": "126",
+            "description": "The action requested is not valid for the current payment state",
+            "communication": "Não conseguimos processar seu pagamento."
+        },
+        "129":
+        {
+            "code": "129",
+            "description": "Cannot pay this amount with this paymentMethod",
+            "communication": "Utilize outro cartão ou outro meio de pagamento."
+        },
+        "145":
+        {
+            "code": "145",
+            "description": "Invalid users involved",
+            "communication": "Não conseguimos processar seu pagamento."
+        },
+        "150":
+        {
+            "code": "150",
+            "description": "The payer_id cannot do payments currently",
+            "communication": "Não conseguimos processar seu pagamento."
+        },
+        "151":
+        {
+            "code": "151",
+            "description": "The payer_id cannot do payments with this payment_method_id",
+            "communication": "Não conseguimos processar seu pagamento."
+        },
+        "160":
+        {
+            "code": "160",
+            "description": "Collector not allowed to operate",
+            "communication": "Não conseguimos processar seu pagamento."
+        },
+        "204":
+        {
+            "code": "204",
+            "description": "Unavailable paymentmethod\tpayment_method_id is not available at this time.",
+            "communication": "Utilize outro cartão ou outro meio de pagamento."
+        },
+        "801":
+        {
+            "code": "801",
+            "description": "Already posted the same request in the last minute",
+            "communication": "Você fez um pagamento similar recentemente. Tente novamente em instantes."
+        }
+    };
+</script>

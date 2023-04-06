@@ -1,0 +1,31 @@
+<div class="row cart-event-products" id="cart-event-products-{{index}}">
+    <div class="col-md-5 col-12 cart-product">
+        {{item.produto}} {{ (item.cupom)? '<div class="badge badge-success">'~item.cupom~'</div>':''}}
+    </div>
+    <div class="col-md-3 col-3 cart-price text-right">
+        R${{item.valor_venda|number_format(2,',','.')}}
+    </div>
+    {% if (item.lugares_nomes or item.lugares )%}
+    <div class="col-md-2 col-6 cart-quant text-center">
+        <b>{{item.quant}} Lugar(es):</b><br>{{item.lugares_nomes}}
+    </div>
+    {% else %}
+    <div class="col-md-2 col-6 cart-quant text-center">
+        <div class="input-group">
+            <button type="button" class="btn btn-secondary btn-sm btn-menos-carrinho"
+                onclick="menosCarrinho('{{id_event}}','{{index}}')" id="btnmenos-cart-{{id_event}}-{{index}}"
+                data-loading-text="" data-reset-text="-">-</button>
+
+            <div class="form-control text-center" id="item-cart-{{id_event}}-{{index}}"
+                ga-price="{{ item.valor_venda }}" ga-name="{{ item.produto }}">{{item.quant}}</div>
+
+            <button type="button" class="btn btn-secondary btn-sm btn-mais-carrinho"
+                onclick="maisCarrinho('{{id_event}}','{{index}}')" id="btnmais-cart-{{id_event}}-{{index}}"
+                data-loading-text="" data-reset-text="+">+</button>
+        </div>
+    </div>
+    {% endif %}
+    <div class="col-md-2 col-3 cart-total text-right">
+        R$<span id="item-cart-total-{{id_event}}-{{index}}">{{item.total|number_format(2,',','.')}}</span>
+    </div>
+</div>

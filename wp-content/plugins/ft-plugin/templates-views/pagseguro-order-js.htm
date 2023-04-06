@@ -1,0 +1,113 @@
+<script src="https://assets.pagseguro.com.br/checkout-sdk-js/rc/dist/browser/pagseguro.min.js"></script>
+
+
+<script>
+
+
+    function initPaymentGW() {
+        console.log('FT-PG-O');
+
+        var fpgto = $('input:radio[name=fpgto]:checked').val();
+
+        if (fpgto == 'CREDITO') {
+            var titular = $('#cob_nome').val();
+            var cpf = $('#cob_documento').val();
+            var datanasc = $('#cob_datanasc').val();
+            var tel = $('#cob_tel').val();
+            var cartao_num = $('#cartao_num').val().replace(/\s/g, '');
+            var cartao_mes = $('#cartao_mes_exp').val();
+            var cartao_ano = $('#cartao_ano_exp').val();
+            var cartao_cvv = $('#cartao_cvv').val();
+            var bandeira = $('#bandeira').val();
+            var condicao = $('#condicao').val();
+
+
+
+            var card = PagSeguro.encryptCard({
+                  publicKey: "{{ gw.session_id }}",
+                  holder: titular,
+                  number: cartao_num,
+                  expMonth: cartao_mes,
+                  expYear: cartao_ano,
+                  securityCode: cartao_cvv
+                });
+
+
+            if ( card.hasErrors ) {
+                var error = card.errors;
+                var message_erro = '';
+                error.forEach(erro => {                    
+                    if ( erros_pagseguro_order[erro.code]) {
+                        message_erro = message_erro + erros_pagseguro_order[erro.code].communication + '<br>';
+                    }
+                  });
+                initPayment('FAIL', message_erro);
+            } else {
+
+
+                var encrypted = card.encryptedCard;
+
+                 if ( encrypted ) {
+                    $('#tokenCard').val(encrypted);
+                    initPayment('OK', '');
+                } else {                
+                    initPayment('FAIL', 'Falha ao gerar o token do cartão, certifique-se de que digitou os dados do cartão corretamente.')
+                }
+
+            }
+
+        }
+        else if (fpgto == 'BOLETO') {
+
+            $('#hash').val(response.senderHash);
+            initPayment('OK', '');
+        }
+        else{
+            initPayment('OK','');
+        }
+    }
+
+
+
+
+var erros_pagseguro_order = {
+    "INVALID_NUMBER":
+    {
+        "code": "INVALID_NUMBER",
+        "description": "Invalid card number",
+        "communication": "Insira o número do cartão de crédito."
+    },
+    "INVALID_SECURITY_CODE":
+    {
+        "code": "INVALID_SECURITY_CODE",
+        "description": "Invalid field securityCode. You must pass a value with 3, 4 or none digits",
+        "communication": "Informe o código de segurança corretamente."
+    },
+    "INVALID_EXPIRATION_MONTH":
+    {
+        "code": "INVALID_EXPIRATION_MONTH",
+        "description": "Invalid field expMonth. You must pass a value between 1 and 12",
+        "communication": "Verifque o mês de validade do cartão."
+    },
+    "INVALID_EXPIRATION_YEAR":
+    {
+        "code": "INVALID_EXPIRATION_YEAR",
+        "description": "Invalid field expYear. You must pass a value with 4 digits",
+        "communication": "Verifque o ano de validade do cartão."
+    },
+    "INVALID_PUBLIC_KEY":
+    {
+        "code": "INVALID_PUBLIC_KEY",
+        "description": "Invalid publicKey",
+        "communication": "Falha interna (Credenciais inválidas)."
+    },
+    "INVALID_HOLDER":
+    {
+        "code": "INVALID_HOLDER",
+        "description": "Invalid holder",
+        "communication": "Informe corretamente o nome do titular do cartão."
+    }
+
+};
+
+</script>

@@ -1,0 +1,52 @@
+<div id="div-cartao" style="display: {{('CREDITO' in gw.fpgtos) ? 'block' : 'none' }};" class=" ">
+    <div class="form-row">
+        <div class="form-group col-md-6 col-9">
+            <label for="cartao_num">Número do Cartão:</label>
+            <input type="text" class="form-control cartao" id="cartao_num" name="cartao_num"
+                data-checkout="cardNumber" id-conta={{gw.id}}>
+        </div>
+        <div class="form-group col-md-3 col-3">
+            <label for="cartao_cvv">CVV:</label>
+            <input type="ext" class="form-control cvv" id="cartao_cvv" name="cartao_cvv"
+                data-checkout="securityCode">
+        </div>
+        <div class="form-group col-md-3 col-3">
+            <label for="bandeira-img">Bandeira</label>
+            <div id="bandeira-img"><i class="fa fa-credit-card fa-2x color-grey"></i></div>
+            <input type="hidden" id="bandeira" name="bandeira">
+        </div>
+        <div class="form-group col-md-3 col-4">
+            <label for="cartao_mes_exp">Mês/Expira:</label>
+            <select class="form-control validade" id="cartao_mes_exp" name="cartao_mes_exp"
+                data-checkout="cardExpirationMonth">
+                <option value=""></option>
+
+                {% for mes in 1..12 %}
+                <option value="{{ "%02d"|format(mes) }}">{{ "%02d"|format(mes) }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-3 col-4">
+            <label for="cartao_ano_exp">Ano:</label>
+            <select class="form-control validade" id="cartao_ano_exp" name="cartao_ano_exp"
+                data-checkout="cardExpirationYear">
+                <option value=""></option>
+                {% set ano_ini = "now"|date("Y") %}
+                {% set ano_fim = ano_ini + 20 %}
+
+                {% for ano in ano_ini..ano_fim %}
+                <option value="{{ ano }}">{{ ano }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group col-md-6 col-12">
+            <label for="condicao">Parcelas:</label>
+            <select class="form-control" id="condicao" name="condicao">
+
+                {% for opt,label in parcelas %}
+                <option value="{{ opt }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>

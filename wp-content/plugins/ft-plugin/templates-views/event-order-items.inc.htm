@@ -1,0 +1,27 @@
+<div class="card card-pedido">
+    <div class="card-body">
+        <h5 class="card-title">Meu pedido</h5>
+        <div id="div-fast-pass-button">
+            <button data-toggle="collapse" type="button" class="btn btn-outline-success btn-sm" href="#agendarv" role="button" aria-expanded="false" aria-controls="agendarv"><i class="fa fa-calendar"></i> Deseja agendar a visita? (<b>fast-pass</b>)</button>
+        </div>
+        <div id="agendarv" class="collapse">
+            <label>Data:</label>
+            <div id="calendario-fastpass" data-idp="0" data-ide="{{args.id_evento}}"></div>
+            <label>Horários disponíveis:</label>
+            <div id="agenda-horarios">{{ args.horarios}}</div>
+            <input type="hidden" id="ide" name="ide" value="{{args.id_evento}}">
+            <input type="hidden" id="type_event" value="{{event.type|lower()}}">
+            <input type="hidden" id="id_comissario" name="id_comissario" value="{{args.id_comissario}}">
+        </div>
+
+        <div id="tablePedido">
+            {{ pedido }}
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-md-3 col-3" style="padding-right: 0px;"><button type="button" class="btn btn-sm btn-outline-secondary btn-clear-carrinho" id="basic-addon"><i class="fas fa-trash"></i> Limpar</button></div>
+                <div class="col-md-9 col-9"><button type="button" class="btn btn-sm btn-success" id="btn-caixa"><i class="fas fa-credit-card"></i> Ir para Pagamento</button></div>
+            </div>
+        </div>
+    </div>
+</div>

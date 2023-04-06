@@ -1,0 +1,38 @@
+<form name="frm-caixa" id="frm-caixa" action="#" method="post">
+	{% if args.agente %}
+		<div class="badge badge-success" style="font-size:1em">
+			{{args.agente }}
+		</div>
+	{% endif %}
+	<div class="row" id="row-box">
+		<div
+			class="col-md-7" id="carrinho-itens">
+			<!--Informa Cupom-->
+			{% if args.exibe_cupom=='S'%}
+				<div class="row" id="form-cupom" style="align-items: baseline;">
+					<div class="col-md-4">
+						<button data-toggle="collapse" type="button" class="btn btn-link btn-xs" href=".formCupom" role="button" aria-expanded="false" aria-controls="formCupom">
+							Possui cupom?
+						</button>
+					</div>
+					<div class="col-md-6 col-8 collapse formCupom {{ (args.cupom) ? 'show' : '' }}" id="informeCupom">
+						<input type="text" class="form-control" id="inputCupom" placeholder="Informe o cupom" value="{{args.cupom}}">
+					</div>
+					<div class="col-md-2 col-4 collapse formCupom {{ (args.cupom) ? 'show' : '' }}" id="adicionarCupom">
+						<button type="button" class="btn btn-mg btn-success" id="busca-cupom">
+							<i class="fa fa-search"></i>
+						</button>
+					</div>
+					<div class="col-12 collapse formCupom {{ (args.cupom) ? 'show' : '' }}" id="msg-cupom"></div>
+				</div>
+			{% endif %}
+			<!--Planos-->
+			{{templates.planos}}
+		</div>
+
+		<!--Meu Pedido-->
+		<div class="col-md-5">
+			{{templates.itens}}
+		</div>
+	</div>
+</form>

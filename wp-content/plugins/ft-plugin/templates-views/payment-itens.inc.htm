@@ -1,0 +1,19 @@
+<div class="row cart-event-products cart-event-products-{{ id_event }}" id="cart-event-products-{{index}}" ga-id="{{index}}" ga-name="{{item.produto}}" ga-price="{{item.valor_venda}}">
+    <div class="col-md-5 col-12 cart-product">
+        {{item.produto}} {{ (item.cupom)? '<div class="badge badge-success">'~item.cupom~'</div>':''}}
+
+        {% if (item.lugares_nomes)%}
+        <br>
+        <small><b>Lugares selecionados:</b> {{ item.lugares_nomes }}</small>
+        {% endif %}
+    </div>
+    <div class="col-md-3 col-3 cart-price text-right">
+        R${{item.valor_venda|number_format(2,',','.')}}
+    </div>
+    <div class="col-md-2 col-6 cart-quant text-center">
+        <div class="text-center" id="item-cart-{{id_event}}-{{index}}">{{item.quant}}</div>
+    </div>
+    <div class="col-md-2 col-3 cart-total text-right">
+        R$<span id="item-cart-total-{{id_event}}-{{index}}">{{item.total|number_format(2,',','.')}}</span>
+    </div>
+</div>

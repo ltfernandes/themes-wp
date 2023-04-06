@@ -1,0 +1,85 @@
+
+
+<form id="frm-lista" name="frm-lista" method="post" action="#">
+
+    <div class="row">
+        <div class="offset-md-2 col-md-6 col-12 text-center">
+            <img src="{{ event.image_face }}" class="img-fluid w-100 d-none d-md-block" style="border-radius: 0.25rem;">
+            <img src="{{ event.image_url }}" class="img-fluid w-100 d-md-none" style="border-radius: 0.25rem;">
+        </div>
+        <div class="col-md-4 col-12 text-center text-md-left">
+            <h3>{{ event.title }}</h3>
+            <h5><i class="fas fa-map-marker-alt"></i> {{ event.local }}</h5>
+            <p><i class="fas fa-calendar"></i> {{ event.event_date | date('d/m/Y')}}, {{ event.event_hour|slice(0,5)}}</p>
+        </div>
+    </div>
+    <div class="form-row mt-4">
+        <div class="form-group offset-md-2 col-md-8 col-12">
+            <label for="lista_nome">Nome do responsável pela lista</label>
+            <input type="text" class="form-control" id="lista_nome" name="lista_nome"
+            data-checkout="cardholderName" >
+        </div>
+        <div class="form-group offset-md-2 col-md-8 col-12">
+            <label for="lista_email">E-mail de contato</label>
+            <input type="email" class="form-control" id="lista_email" name="lista_email"
+            data-checkout="cardholderName" >
+        </div>
+        <div class="form-group offset-md-2 col-md-8 col-12">
+            <label for="lista_celular">Celular com DDD</label>
+            <input type="text" class="form-control cel " id="lista_celular" name="lista_celular"
+            data-checkout="docNumber" >
+        </div>
+        {% for list in lists %}
+            {% if list.cota_bonus > 0 %}
+            <div class="form-group offset-md-2 col-md-8 col-12">
+                <label for="lista_nomes_{{ list.fk_plano }}">{{ list.plano }} </label>
+                {% if list.cota_bonus > list.utilizado_bonus %}
+                    <textarea  class="form-control" id="lista_nomes_{{ list.fk_plano }}" name="plano[{{ list.fk_plano }}]" rows="6"></textarea>
+                {% else %}
+                    <p><i>O limite disponível já foi atingido.</i></p>
+                {% endif %}
+            </div>
+            <input type="hidden" name="id_cota" value="{{ list.fk_cota }}">
+            {% endif %}
+        {% endfor %}
+
+    </div>
+
+    <div class="row">
+        <div class="col-12" id="msg-callback-lista"></div>
+    </div>
+    <div class="form-row " id="div-submit-lista">
+        <div class="form-group col-12 text-align-center text-center" style="align-self: flex-end;">
+            <button type="button" class="btn btn-mg  btn-success" id="btn-inserir-nomes" style="padding: 5px 50px;" 
+            data-loading-text="Enviando ..." data-reset-text="Enviar" onclick="salvarLista();">Enviar</button>
+        </div>
+    </div>
+
+    <input type="hidden" name="type" value="{{ event.type }}">
+    <input type="hidden" name="id_evento" value="{{ event.id_evento }}">
+    <input type="hidden" name="id_programacao" value="{{ event.id }}">
+
+</form>
+
+
+<script type="text/javascript">
+
+    var div_msg_lista = $('#msg-callback-lista');
+    function salvarLista(){
+        div_msg_lista.html('');
+
+        let post = $('#frm-lista').serialize();
+
+        x_eventListSave(post, function(res) {
+            div_msg_lista.html('Salvando...');
+            console.log('res');
+            console.log(res);
+
+            if (res.status == 'OK') {
+                $('#btn-inserir-nomes').remove();
+            }
+
+            div_msg_lista.html(res.msg);
+        });
+    }
+</script>

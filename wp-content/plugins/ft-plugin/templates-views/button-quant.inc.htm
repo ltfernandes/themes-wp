@@ -1,0 +1,9 @@
+<div class="input-group">
+    <span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary btn-card-quant btn-card-quant-minus"
+            onclick="changeQuant('{{index_plan}}','DEL')"><i class="fa fa-minus"></i></button></span>
+    <input type="text" name="quant[{{index_plan}}]" id="quant_{{index_plan}}" rel-id="{{index_plan}}" limite-dias="0"
+        data-max="{{plan.quantity_max}}" class="form-control plano_quant text-center" style="width:30px" placeholder="0"
+        readonly value="{{carrinho[ide].produtos[index_plan].quant}}">
+    <span class="input-group-btn"><button type="button" class="btn btn-sm btn-primary btn-card-quant btn-card-quant-plus"
+            onclick="changeQuant('{{index_plan}}','ADD')"><i class="fa fa-plus"></i></button></span>
+</div>

@@ -1,0 +1,25 @@
+<script src="https://checkout.pagar.me/v1/tokenizecard.js" data-pagarmecheckout-app-id="{{ gw.session_id }}"></script>
+<script>
+    $("#btn-pagar").prop("onclick", null).off("click").removeAttr("onclick").removeAttr("type").attr("type", "submit");
+    $('#frm-pagar').attr('data-pagarmecheckout-form', '');
+    $('#cob_nome').attr('data-pagarmecheckout-element', 'holder_name');
+    $('#cartao_num').attr('data-pagarmecheckout-element', 'number');
+    $('#bandeira').attr('data-pagarmecheckout-element', 'brand');
+    $('#cartao_mes_exp').attr('data-pagarmecheckout-element', 'exp_month');
+    $('#cartao_ano_exp').attr('data-pagarmecheckout-element', 'exp_year');
+    $('#cartao_cvv').attr('data-pagarmecheckout-element', 'cvv');
+
+    function successPagarme(data) {
+        console.log('FT-PM');
+        $('#tokenCard').val(data['pagarmetoken-0']);
+        efetuarPagamento();
+        return false;
+    };
+
+    function failPagarme(error) {
+        console.log('Pagarme error');
+        console.log(error);
+    };
+
+    PagarmeCheckout.init(successPagarme,failPagarme)
+</script>

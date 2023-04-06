@@ -1,0 +1,38 @@
+
+{% for f in ticket.form.form_json %}
+
+<div class="col-lg-12 col-md-12 col-12 pt-3">
+    
+    {% if (f.type != 'header' and f.type != 'paragraph' and f.type != 'radio-group' and f.type != 'checkbox-group' and f.type != 'hidden') %}
+        <label for="{{f.name}}" class="label_{{f.name}} form-label">{{f.label}}: {{(f.required)? '*' : '' }}</label>
+    {% elseif (f.type == 'header') %}
+        <h4 class="{{f.className}} {{f.name}}">{{f.label}}</h4>
+    {% elseif (f.type == 'paragraph') %}
+        <div class="{{f.className}} {{f.name}}">{{f.label}}</div>
+    {% endif %}
+
+    {# Campo checkbox-group #}
+    {% if (f.type == 'checkbox-group') %}
+        {% for index,opt in f.values %}
+            <div class="font-weight-bold">{{opt.label}} {{ (opt.value == f.value[index])? '✔':'' }}</div>
+        {% endfor %}
+    
+    {# Campo radio-group #}
+    {% elseif (f.type == 'radio-group') %}
+        {% for opt in f.values %}
+            <div class="font-weight-bold">{{opt.label}} {{ (opt.value == f.value)? '✔':'' }}</div>
+        {% endfor %}
+
+    {% elseif (f.type == 'select') %}
+        {% for opt in f.values %}
+            <div class="font-weight-bold">{{opt.label}} {{ (opt.value == f.value)? '✔':'' }}</div>
+        {% endfor %}
+
+    {% else %}
+    <div class="font-weight-bold">{{f.value}}</div>
+
+    {% endif %}
+
+</div>
+
+{% endfor %}

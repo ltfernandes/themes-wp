@@ -1,0 +1,43 @@
+<div class="col-md-4 form-check form-check-inline" style="padding-right:0;margin-right:0;">
+    <label class="form-check-label">Forma de Pagamento: </label>
+</div>
+
+{% if ('CREDITO' in gw.fpgtos) %}
+<div class="form-check form-check-inline">
+    <label class="form-check-label" for="fpgto-cartao">
+        <input class="form-check-input fpgto" type="radio" name="fpgto" id="fpgto-cartao" value="CREDITO" checked>
+        <i class="fa fa-credit-card" style="margin-right:5px"></i>
+        Cartão de Crédito
+    </label>
+</div>
+{% endif %}
+
+{% if ('BOLETO' in gw.fpgtos) %}
+<div class="form-check form-check-inline">
+    <label class="form-check-label" for="fpgto-boleto">
+        <input class="form-check-input" type="radio" name="fpgto" id="fpgto-boleto" value="BOLETO">
+        <i class="fa fa-barcode" style="margin-right:5px"></i>
+        Boleto
+    </label>
+</div>
+{% endif %}
+
+{% if ('PIX' in gw.fpgtos) %}
+<div class="form-check form-check-inline">
+    <label class="form-check-label" for="fpgto-pix">
+        <input class="form-check-input" type="radio" name="fpgto" id="fpgto-pix" value="PIX">
+        <i class="fa fa-qrcode" style="margin-right:5px"></i>
+        Pix
+    </label>
+</div>
+{% endif %}
+
+{% if  ('PAYPAL' in gw.fpgtos)  %}
+<div class="form-check form-check-inline">
+    <label class="form-check-label" for="fpgto-paypal">
+        <input class="form-check-input" type="radio" name="fpgto" id="fpgto-paypal" value="PAYPAL">
+        <i class="fa fa-paypal" style="margin-right:5px"></i>
+        PayPal
+    </label>
+</div>
+{% endif %}

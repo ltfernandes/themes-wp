@@ -1,0 +1,35 @@
+{% if totais.total_compra == 0 %}
+<input class="form-check-input" type="radio" name="fpgto" id="fpgto-free" value="FREE" checked hidden>
+{% endif %}
+{% set hidden = totais.total_compra > 0 ? '' : 'hidden' %}
+<div style="margin-top: 1rem" class=" " id="div-dados-pagador" {{hidden}}>
+    <div class="form-row">
+        <div class="form-group col-md-8 col-12">
+            <label for="cob_nome">Titular do Pagamento:</label>
+            <input type="text" class="form-control" id="cob_nome" name="cob_nome"
+                data-checkout="cardholderName" value="{{ cliente.nome }}">
+        </div>
+        <div class="form-group col-md-4 col-12">
+            <label for="cob_documento">CPF:</label>
+            <input type="text" class="form-control cpf " id="cob_documento" name="cob_documento"
+                data-checkout="docNumber" value="{{ cliente.documento_num }}">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-4 col-12">
+            <label for="cob_datanasc">Data de Nascimento:</label>
+            <input type="text" class="form-control date" id="cob_datanasc" name="cob_datanasc"
+                value="{{ cliente.datanasc }}">
+        </div>
+        <div class="form-group col-md-4 col-12">
+            <label for="cob_tel">Celular:</label>
+            <input type="text" class="form-control cel" id="cob_tel" name="cob_tel"
+                value="{{ cliente.celular }}">
+        </div>
+        <div class="form-group col-md-4 col-12">
+            <label for="cob_email">E-mail:</label>
+            <input type="email" class="form-control" id="cob_email" name="cob_email"
+                value="{{ cliente.email }}">
+        </div>
+    </div>
+</div>

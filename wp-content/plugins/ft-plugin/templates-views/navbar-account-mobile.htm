@@ -1,0 +1,19 @@
+<div class="list-group">
+    {% if(vendas_carrinho=='S') %}
+    <a href="{{ url_carrinho }}" class="list-group-item list-group-item-action" id="nav-mobile-cart"> <i
+            class="fas fa-cart-plus"></i> Carrinho
+        (<span class="carrinho_total">{{ total_carrinho }}</span>)</a>
+
+    {% endif %}
+    <br>
+    <div class="list-group-item list-group-item-action" id="nav-mobile-login">
+        <h6 class="msg-access-account">Acessar minha conta:</h6>
+        {% include "form-login.inc.htm" %}
+    </div>
+    <br>
+    <a class="list-group-item list-group-item-action" href="{{ url_esqueci }}"><i class="fas fa-question-circle"></i>
+        Esqueci minha senha</a>
+    <a class="list-group-item list-group-item-action" href="{{ url_cadastro }}"><i class="fas fa-user-plus"></i> Criar
+        conta</a>
+
+</div>

@@ -1,0 +1,169 @@
+<form name="frm_cadastro_email" id="frm_cadastro_email" autocomplete="off" method="post" action="{{dados.site_url}}/cadastro" class="row ga-register">
+    <div class="col-lg-6">
+        <div class="col-lg-12 pt-3">
+            <h3>Dados da conta</h3>
+        </div>
+        <div class="row g-3 pl-3 pr-3">
+            <div class="col-lg-12 pt-2">
+                <label for="nome" class="form-label">Nome completo *</label>
+                <input type="text" class="form-control" placeholder="Nome completo" name="nome" id="nome"
+                    value="{{dados.nome}}" required>
+            </div>
+            <div class="col-lg-4 pt-2">
+                <label for="doc_principal" class="form-label">Tipo de documento  *</label>
+                <select class="form-select" id="doc_principal" name="doc_principal" required>
+                    <option selected disabled value="">Selecione</option>
+                    <option value="CPF" {{(dados.doc_principal=='CPF')?'selected':''}}>CPF</option>
+                    <option value="PASSAPORTE" {{(dados.doc_principal=='PASSAPORTE')?'selected':''}}>Passaporte</option>
+                </select>
+            </div>
+            <div class="col-lg-4 pt-2">
+                <label for="documento_num" class="form-label">Nº Documento  *</label>
+                <input type="text" class="form-control" placeholder="000.000.000-00" name="documento_num"
+                    id="documento_num" value="{{dados.documento_num}}" required>
+            </div>
+           
+            <div class="col-lg-4 pt-2">
+                <label for="datanasc" class="form-label">Nascimento  *</label>
+                <input type="text" class="form-control date" placeholder="00/00/0000" name="datanasc" id="datanasc"
+                    value="{{dados.datanasc}}" required>
+            </div>
+            <div class="col-lg-4 pt-2">
+                <label for="celular" class="form-label">Celular  *</label>
+                <input type="text" class="form-control cel" placeholder="(00) 0 0000-0000" id="celular" name="celular"
+                    value="{{dados.celular}}" required>
+            </div>
+
+            <div class="col-lg-12 form-hr">
+                <hr>
+            </div>
+
+            <div class="col-lg-4 pt-2">
+                <label for="cep" class="form-label">CEP  *</label>
+                <input type="text" class="form-control cep" placeholder="00.000-000" name="cep" id="cep"
+                    value="{{dados.cep}}" required>
+            </div>
+            <div class="col-lg-8 pt-2">
+                <label for="endereco" class="form-label">Endereço  *</label>
+                <input type="text" class="form-control" placeholder="Rua, Avenida, etc." name="endereco" id="endereco"
+                    value="{{dados.endereco}}" required>
+            </div>
+            <div class="col-lg-4 pt-2">
+                <label for="num" class="form-label">Número  *</label>
+                <input type="text" class="form-control" id="num" name="num" value="{{dados.num}}"
+                    required>
+            </div>
+
+            <div class="col-lg-4 pt-2">
+                <label for="complemento" class="form-label">Complemento </label>
+                <input type="text" class="form-control" placeholder="Bloco, Apto, etc." id="complemento"
+                    value="{{dados.complemento}}" name="complemento">
+            </div>
+            <div class="col-lg-4 pt-2">
+                <label for="bairro" class="form-label">Bairro  *</label>
+                <input type="text" class="form-control" placeholder="Bairro" id="bairro" name="bairro"
+                    value="{{dados.bairro}}" required>
+            </div>
+            <div class="col-lg-6 pt-2">
+                <label for="validationDefault04" class="form-label">Estado  *</label>
+                <select class="form-select" name="estado" id="estado" required>
+                    <option selected disabled value="">Selecione</option>
+                    {{dados.options_estados}}
+                </select>
+            </div>
+            <div class="col-lg-6 pt-2">
+                <label for="cidade" class="form-label">Cidade *</label>
+                <select class="form-select" name="cidade" id="cidade" required>
+                    <option selected disabled value="">Selecione</option>
+                    {{dados.options_cidades}}
+
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 pl-3 pr-3">
+        <div class="col-lg-12 pt-3">
+            <h3>Dados de login</h3>
+            <div class="row g-3">
+                <div class="col-lg-12 pt-2">
+                    <label for="email" class="form-label">E-mail  *</label>
+                    <div class="form-group row">
+                        <div class="input-group col-sm-12">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="m-1 fas fa-user"></i></div>
+                            </div>
+                            <input type="email" class="form-control email-confere" name="email" id_public="{{dados.id}}" id="logar-email"
+                                placeholder="E-mail" value="{{dados.email}}" required>
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text"><span id="resValidaMail"></span></div>
+                                </div>
+                        </div>
+                        <div class="form-switch ml-3 pt-1">
+                            <input class="form-check-input" type="checkbox" value="S" name="recebe_news"
+                                id="recebe_news" {{(dados.recebe_news=='S')?'checked':''}}>
+                            <label class="form-check-label" for="recebe_news">
+                                Aceito receber novidades por e-mail.
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 pt-2">
+                    <label for="senha" class="form-label">Senha  *</label>
+                    <div class="form-group row">
+                        <div class="input-group col-sm-12">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="m-1 fas fa-key"></i></div>
+                            </div>
+                            <input type="password" class="form-control" name="senha" id="senha" autocomplete="off"
+                                placeholder="Senha" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 pt-2">
+                    <label for="csenha" class="form-label">Confirmação de senha  *</label>
+                    <div class="form-group row">
+                        <div class="input-group col-sm-12">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><i class="m-1 fas fa-key"></i></div>
+                            </div>
+                            <input type="password" class="form-control" autocomplete="off" name="csenha" id="csenha"
+                                placeholder="Senha" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 pt-2">
+                    <div class="form-switch">
+                        <input class="form-check-input" type="checkbox" name='aceite' id='aceite' value='S' required
+                            {{(dados.aceite=='S')?'checked':''}}>
+                        <label class="form-check-label" for="aceite">
+                            Declaro que li e estou de acordo com os <a href="{{dados.url_politicas}}"
+                                target="_blank">Termos de Uso e Política de
+                                Privacidade</a>.
+                        </label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-switch">
+                        <input class="form-check-input" type="checkbox" name='aceite_usodados' id='aceite_usodados'
+                            value='S' required {{(dados.aceite_usodados=='S')?'checked':''}}>
+                        <label class="form-check-label" for="aceite_usodados">
+                            Concordo com o processamento dos meus dados pessoais conforme descrito nos <a
+                                href="{{dados.url_politicas}}" target="_blank">Termos de Uso e Política de
+                                Privacidade</a>.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-12 pt-2">
+                    <input type="hidden" name="tipo_login" value="EMAIL">
+                    <input type="hidden" name="tokenFt" value="{{dados.tokenFt}}">
+                    <button class="btn btn-primary" type="submit">Criar conta</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</form>
+{% include "recaptcha-v3.inc.htm" %}

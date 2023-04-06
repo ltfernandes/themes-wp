@@ -1,0 +1,10 @@
+{% if status == 'OK' %}
+<div class="alert alert-success">
+    <h4>{{ msg }}</h4>
+</div>
+{% if url %}
+<meta http-equiv="refresh" content="2;url={{ url }}"> {% endif %} {% else %}
+<div class="alert alert-danger">
+    {{ msg_error }}
+</div>
+{% endif %}

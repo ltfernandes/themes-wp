@@ -1,0 +1,19 @@
+{% if produtos %}
+<span class="menu-carrinho"><a href="{{ page }}" class="module module-cart right">
+        <span class="cart-icon">
+            <i class="ti ti-shopping-cart"></i>
+            <span class="notification">{{ produtos }}</span>
+</span>
+<span class="cart-value">R$ {{ total|number_format(2, ',', '.') }}</span>
+</a>
+</span>
+{% else %}
+<span class="menu-carrinho"><a href="{{ page }}" class="module module-cart right">
+    <span class="cart-icon">
+        <i class="ti ti-shopping-cart"></i>
+        <span class="notification no-mobile">{{ produtos }}</span>
+</span>
+<span class="cart-value no-mobile">R$ {{ total|number_format(2, ',', '.') }}</span>
+</a>
+</span>
+{% endif %}

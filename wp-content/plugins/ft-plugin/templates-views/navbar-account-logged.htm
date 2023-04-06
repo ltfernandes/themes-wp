@@ -1,0 +1,21 @@
+<ul class="navbar-nav">
+    {% if(vendas_carrinho=='S') %}
+        <li class="nav-item" id="cart">
+            <a href="{{ url_carrinho }}" class="btn btn-success"> <i class="fas fa-cart-plus"></i> Carrinho (<span class="carrinho_total">{{ total_carrinho }}</span>)</a>
+        </li>
+    {% endif %}
+    <li class="nav-item" id="myaccount">
+        <div class="dropdown">
+            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMyAccountMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ primeiro_nome }}
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMyAccountMenuButton">
+                <a class="dropdown-item" href="{{ url_pedidos }}"><i class="fa fa-ticket"></i> Meus Pedidos</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ url_cadastro }}"><i class="fa fa-user"></i> Atualizar Cadastro</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ site_url }}?sair=S"><i class="fa fa-sign-out"></i> Sair</a>
+            </div>
+        </div>
+    </li>
+</ul>  

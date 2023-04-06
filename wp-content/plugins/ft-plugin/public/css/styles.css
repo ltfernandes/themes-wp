@@ -1,0 +1,391 @@
+@media (max-width: 991px) {
+  .cart-event-products-title {
+    display: none !important;
+  }
+}
+
+.formpag,
+.load {
+  display: none;
+}
+
+label {
+  display: contents !important;
+  margin-bottom: 0.5rem;
+}
+
+.plan-description {
+  font-size: 0.8em;
+}
+
+.itens-head {
+  font-weight: bold;
+}
+
+.msg-access-account {
+  font-weight: bold;
+}
+
+.plan-price-old {
+  font-size: 0.7em;
+}
+
+.display_date_visit {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.cart-event-title {
+  font-size: 1.1em;
+  font-weight: bold;
+  margin: 0px 0px 10px 0px;
+}
+
+.cart-product {
+  margin-top: 5px;
+}
+
+.cart-event {
+  padding: 20px 0px 20px 0px;
+}
+
+.cart-event-products-title {
+  font-weight: 500;
+  background: #eee;
+  padding: 5px;
+  border-radius: 15px;
+  color: #6c757d;
+}
+
+.order-payments,
+.order-tickets,
+.order-sales {
+  margin-top: 30px;
+}
+
+.ticket-plan {
+  text-align: center;
+  font-size: 1.5em;
+}
+
+
+#result-cupom {
+  margin: 20px;
+}
+
+.termos_compra {
+  height: 300px;
+  padding: 10px;
+  overflow-y: auto;
+  overflow-x: none;
+  background: #eee;
+  border: 1px dashed #ccc;
+}
+
+.ticket-id {
+  text-align: center;
+  font-size: 2em;
+  padding: 5px 0px 0px 0px;
+}
+
+.ticket-qrcode {
+  text-align: center;
+  padding: 5px 0px 5px 0px;
+}
+
+.cart-totais div {
+  margin: 10px;
+}
+.cart-totais {
+  border-top: 2px solid #ccc;
+  font-weight: bold;
+  padding: 5px;
+  color: #333;
+}
+
+.cart-totais-itens {
+  display: inline-block;
+  width: 100px;
+}
+
+.cart-event-products {
+  padding: 5px 0px 5px 0px;
+}
+
+.link-evento {
+  text-decoration: none !important;
+}
+
+.pedido-carrinho-fotos {
+  /* Prevent vertical gaps */
+  line-height: 0;
+  -webkit-column-count: 5;
+  -webkit-column-gap: 0px;
+  -moz-column-count: 5;
+  -moz-column-gap: 0px;
+  column-count: 5;
+  column-gap: 0px;
+}
+.quant {
+  height: 30px;
+}
+.pedido-carrinho-fotos img {
+  /* Just in case there are inline attributes */
+  width: 100% !important;
+  height: auto !important;
+}
+
+.content-event-home {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+}
+
+.btn-control {
+  margin: 2px !important;
+  padding: 2px !important;
+  border-radius: 50% !important;
+  width: 25px;
+  height: 25px;
+  color: #fff !important;
+}
+
+.btn-control a:visited {
+  color: #fff !important;
+}
+
+.label-local {
+  font-size: 0.7em;
+  color: #666;
+}
+
+.divrows .row {
+  margin-top: 10px !important;
+}
+
+@media screen and (min-width: 37em) {
+  #carrinho-mobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 37em) {
+  #carrinho-mobile {
+    position: fixed;
+    background: #333;
+    padding: 20px;
+    bottom: 0px;
+    width: 100%;
+    z-index: 999;
+  }
+}
+
+/* Grid de imagens */
+
+.container-fotos {
+  width: 100%;
+  height: 200px;
+  background: #000;
+  margin: 0px;
+  padding: 0px;
+}
+
+.galeria-fotos {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(4, 50px);
+  grid-gap: 0;
+  margin: 0px;
+  padding: 0px;
+  /* 1.5rem */
+}
+
+.galeria-foto {
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+.galeria-totalfotos-1 .galeria-foto-1 {
+  grid-column-start: 1;
+  grid-column-end: 7;
+  grid-row-start: 1;
+  grid-row-end: 5;
+}
+
+.galeria-totalfotos-2 .galeria-foto-1 {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 5;
+}
+
+.galeria-totalfotos-2 .galeria-foto-2 {
+  grid-column-start: 4;
+  grid-column-end: 7;
+  grid-row-start: 1;
+  grid-row-end: 5;
+}
+
+.galeria-totalfotos-3 .galeria-foto-1 {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 5;
+}
+
+.galeria-totalfotos-3 .galeria-foto-2 {
+  grid-column-start: 4;
+  grid-column-end: 7;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.galeria-totalfotos-3 .galeria-foto-3 {
+  grid-column-start: 4;
+  grid-column-end: 7;
+  grid-row-start: 3;
+  grid-row-end: 5;
+}
+
+.galeria-totalfotos-4 .galeria-foto-1 {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.galeria-totalfotos-4 .galeria-foto-2 {
+  grid-column-start: 4;
+  grid-column-end: 7;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.galeria-totalfotos-4 .galeria-foto-3 {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 3;
+  grid-row-end: 5;
+}
+
+.galeria-totalfotos-4 .galeria-foto-4 {
+  grid-column-start: 4;
+  grid-column-end: 7;
+  grid-row-start: 3;
+  grid-row-end: 5;
+}
+
+.galeria-totalfotos-5 .galeria-foto-1 {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.galeria-totalfotos-5 .galeria-foto-2 {
+  grid-column-start: 4;
+  grid-column-end: 7;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.galeria-totalfotos-5 .galeria-foto-3 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 3;
+  grid-row-end: 5;
+}
+
+.galeria-totalfotos-5 .galeria-foto-4 {
+  grid-column-start: 3;
+  grid-column-end: 5;
+  grid-row-start: 3;
+  grid-row-end: 5;
+}
+
+.galeria-totalfotos-5 .galeria-foto-5 {
+  grid-column-start: 5;
+  grid-column-end: 7;
+  grid-row-start: 3;
+  grid-row-end: 5;
+}
+
+.galeria-totalfotos-6 .galeria-foto-1 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.galeria-totalfotos-6 .galeria-foto-2 {
+  grid-column-start: 3;
+  grid-column-end: 5;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.galeria-totalfotos-6 .galeria-foto-3 {
+  grid-column-start: 5;
+  grid-column-end: 7;
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
+.galeria-totalfotos-6 .galeria-foto-4 {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row-start: 3;
+  grid-row-end: 5;
+}
+
+.galeria-totalfotos-6 .galeria-foto-5 {
+  grid-column-start: 3;
+  grid-column-end: 5;
+  grid-row-start: 3;
+  grid-row-end: 5;
+}
+
+.galeria-totalfotos-6 .galeria-foto-6 {
+  grid-column-start: 5;
+  grid-column-end: 7;
+  grid-row-start: 3;
+  grid-row-end: 5;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+/* Fim Grid de imagens */

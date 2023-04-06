@@ -1,0 +1,16 @@
+{% if(busca)%}
+<h4>Resultado da busca por: {{busca}}</h4>
+{% endif %}
+{% if (events) %}
+<div class="row">
+    {% for event in events %}
+    {% if (event.type=='UNIDADE') %}
+    {% include "unitcard.inc.htm" %}
+    {% else %}
+    {% include "eventcard.inc.htm" %}
+    {% endif %}
+    {% endfor %}
+</div>
+{% else %}
+    <div class="alert alert-info alert-noresult">Ops! Nenhum resultado econtrado para a busca por <b>{{ busca }}</b></div>
+{% endif %}

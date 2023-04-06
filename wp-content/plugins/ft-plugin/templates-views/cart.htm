@@ -1,0 +1,46 @@
+{% if (carrinho) %}
+<div class="text-right">
+    <button type="button" class="btn btn-secondary btn-sm" id="btn-clear-carrinho" onclick="limparCarrinho()">Limpar
+        Carrinho</button>
+</div>
+{% for id_event,event in carrinho %}
+{% if (event.produtos) %}
+<div class="cart-event">
+    <div class="cart-event-title" id="cart-event-{{id_event}}" ga-title="{{event.titulo}}"
+        ga-date="{{event.data_visita}}">
+        {% if (show_evento_titulo=='S') %}
+        {{event.titulo}}
+        {% endif %}
+    </div>
+    {% if (event.data_visita) %}
+    <div class="display_date_visit">Data da visita: {{event.data_visita}} {{event.hora_visita|slice(0,5)}}</div>
+    {% endif %}
+    <div class="row cart-event-products-title">
+        <div class="col-md-5 col-12 text-center">
+            Produto
+        </div>
+        <div class="col-md-3 col-3 text-center">
+            Valor de Venda
+        </div>
+        <div class="col-md-2 col-6 text-center">
+            Quant.
+        </div>
+        <div class="col-md-2 col-3 text-center">
+            Total
+        </div>
+    </div>
+    {% for index,item in event.produtos %}
+    {% include "cart-itens.inc.htm" %}
+    {% endfor %}
+</div>
+{% endif %}
+{% endfor %}
+{% include "cart-totais.inc.htm" %}
+<div class="row justify-content-end">
+    <div class="col-md-4 col-12 align-self-end">
+        <a href="{{url_pagamento}}" class="btn btn-block btn-success"><i class="fas fa-check"></i> Finalizar Compra</a>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info">Nenhum item adicionado ao carrinho até o momento!</div>
+{% endif %}

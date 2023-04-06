@@ -1,0 +1,80 @@
+{# 
+Types:
+autocomplete
+button
+checkbox-group
+date
+header
+hidden
+number
+paragraph
+radio-group
+select
+starRating
+text
+textarea
+#}
+{% for index,f in ticket.form.form_json %}
+
+<div class="col-lg-12 col-md-12 col-12 pt-3">
+    
+    {% if (f.type != 'header' and f.type != 'paragraph' and f.type != 'radio-group' and f.type != 'checkbox-group' and f.type != 'hidden') %}
+        <label for="{{f.name}}" class="label_{{f.name}} form-label">{{f.label}}: {{(f.required)? '*' : '' }}</label>
+    {% elseif (f.type == 'header') %}
+        <h4 class="{{f.className}} {{f.name}}">{{f.label}}</h4>
+    {% elseif (f.type == 'paragraph') %}
+        <div class="{{f.className}} {{f.name}}">{{f.label}}</div>
+    {% endif %}
+
+    {# Campo de texto #}
+    {% if (f.type == 'text' or f.type == 'autocomplete') %}
+        <input type="text" class="{{f.className}} {{f.name}}" name="form[{{ticket.form.id_form}}][{{f.name}}]" id="{{f.name}}" value="{{f.value}}" {{(f.required)? 'required' : '' }}>
+    {% endif %}
+
+    {# Campo de texto #}
+    {% if (f.type == 'number') %}
+        <input type="number" class="{{f.className}} {{f.name}}" name="form[{{ticket.form.id_form}}][{{f.name}}]" id="{{f.name}}" value="{{f.value}}" {{(f.required)? 'required' : '' }}>
+    {% endif %}
+
+    {# Campo de data #}
+    {% if (f.type == 'date') %}
+        <input type="date" class="{{f.className}} {{f.name}}" name="form[{{ticket.form.id_form}}][{{f.name}}]" id="{{f.name}}" value="{{f.value}}" {{(f.required)? 'required' : '' }}>
+    {% endif %}
+
+    {# Campo textarea #}
+    {% if (f.type == 'textarea') %}
+        <textarea class="{{f.className}} {{f.name}}" name="form[{{ticket.form.id_form}}][{{f.name}}]" id="{{f.name}}" {{(f.required)? 'required' : '' }}>{{f.value}}</textarea>
+    {% endif %}
+
+    {# Campo select #}
+    {% if (f.type == 'select') %}
+    <select class="{{f.className}} {{f.name}}" name="form[{{ticket.form.id_form}}][{{f.name}}]" id="{{f.name}}" {{(f.required)? 'required' : '' }}>
+        <option></option>
+        {% for opt in f.values %}
+        <option value="{{opt.value}}" {{ (opt.value == f.value)? 'selected':'' }}>{{opt.label}}</option>
+        {% endfor %}
+    </select>
+    {% endif %}
+
+    {# Campo checkbox-group #}
+    {% if (f.type == 'checkbox-group') %}
+        {% for indexc, opt in f.values %}
+        <div class="div-check-{{f.name}}"><input type="checkbox" name="form[{{ticket.form.id_form}}][{{f.name}}][]" id="{{f.name}}" value="{{opt.value}}" {{ (opt.value == f.value[indexc])? 'checked':'' }}> <label for="{{f.name}}" class="label_{{f.name}}">{{opt.label}}</label></div>
+        {% endfor %}
+    {% endif %}
+
+    {# Campo radio-group #}
+    {% if (f.type == 'radio-group') %}
+        {% for opt in f.values %}
+        <div class="div-radio-{{f.name}}"><input type="radio" name="form[{{ticket.form.id_form}}][{{f.name}}]" id="{{f.name}}" value="{{opt.value}}" {{ (opt.value == f.value)? 'checked':'' }} > <label for="{{f.name}}" class="label_{{f.name}}">{{opt.label}}</label></div>
+        {% endfor %}
+    {% endif %}
+
+    {# Campo oculto #}
+    {% if (f.type == 'hidden') %}
+        <input type="hidden" name="form[{{ticket.form.id_form}}][{{f.name}}]" id="{{f.name}}" value="{{f.value}}">
+    {% endif %}
+
+</div>
+
+{% endfor %}

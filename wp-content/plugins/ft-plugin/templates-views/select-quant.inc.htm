@@ -1,0 +1,8 @@
+<select class="form-select plano_quant" id="quant_{{index_plan}}" name="quant[{{index_plan}}]" rel-id="{{index_plan}}"
+    aria-label="Select">
+    <option selected>
+        <Selecione< /option>
+            {% for q in 1..plan.quantity_max %}
+    <option value="{{ q }}">{{ q }}</option>
+    {% endfor %}
+</select>

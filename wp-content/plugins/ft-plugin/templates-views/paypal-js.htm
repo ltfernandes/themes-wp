@@ -1,0 +1,84 @@
+
+
+<!-- Include the PayPal JavaScript SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id={{ gw.fpgtos_data['PAYPAL'].session_id }}&currency=BRL"></script>
+
+
+
+<!-- Set up a container element for the button -->
+<div id="paypal-button-container" style="display: none; margin-top: 20px;"></div>
+
+<script>
+  var valida_termo = ($('#termo_compra').length) ? 'S' : 'N';
+  var total_compra = "{{totais.total_compra|number_format(2,'.','')}}";
+  paypal.Buttons({
+
+    // onInit is called when the button first renders
+    onInit: function(data, actions) {
+        console.log('PayPal - onInit');
+/*
+      // Disable the buttons
+      actions.disable();
+
+        if(valida_termo=='S' && $('#termo_compra:checked').val() != 'S'){
+            //actions.disable();  
+            showMsgError('Para prosseguir com o pagamento, é necessário aceitar o termo de compra acima!');  
+        } else {
+           //actions.enable();
+           clearMsg();
+        }
+*/
+    },
+    onClick: function() {
+      // Show a validation error if the checkbox is not checked
+      if(valida_termo=='S' && $('#termo_compra:checked').val() != 'S'){
+        showMsgError('Para prosseguir com o pagamento, é necessário aceitar o termo de compra acima!');
+        return false;
+      } else {
+        clearMsg();
+      }
+    },
+    // Sets up the transaction when a payment button is clicked
+    createOrder: (data, actions) => {
+       var res = actions.order.create({
+                purchase_units: [{
+                    reference_id: '{{ id_pedido }}',
+                    custom_id: '{{ id_pedido }}',
+                    invoice_id: '{{ id_pedido }}',
+                    amount: {
+                        currency_code: 'BRL',
+                        value: total_compra 
+                    }
+                }]
+            })
+            .then(function(transaction_id){
+                x_setTransaction( String(transaction_id), function(res) {
+                    $('#id_pgto').val( res.id_pgto );
+                    return transaction_id;            
+                }); 
+                return transaction_id;
+            })
+            .then(function(orderId_B){
+                return orderId_B;                 
+            });
+
+        return res;
+            
+        
+    }, //createOrder
+    // Finalize the transaction after payer approval
+    onApprove: (data, actions) => {
+        clearMsg();
+        return actions.order.capture().then(function(orderData) {
+          console.log('FT-PP');
+            $('#transaction_id').val( orderData.id );
+            $('#transaction_data').val( JSON.stringify(orderData, null, 2) );
+            efetuarPagamento();
+        });
+      }
+      
+  }).render('#paypal-button-container');
+
+
+</script>
+

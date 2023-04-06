@@ -1,0 +1,19 @@
+<div class="col-lg-3 col-md-4 pt-4 mb-4">
+    <a class="card" href="{{ site_url }}/event/{{ event.id }}/{{ event.slug }}">
+        <div class="card-img-top" style="height:16rem;background: url('{{ event.image_url }}');background-size: cover;background-repeat: no-repeat;">
+            <div class="event-date text-center">
+                <h4>{{ event.event_date | date('d')}}</h4>
+                <h5><span class="badge badge-secondary">{{ event.event_date | date('M')}}</span></h5>
+                <h6>{{ event.week|slice(0, 3) }}</h6>
+            </div>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ event.title }}</h5>
+            {% if (event.main_attraction) %}
+            <h4 class="card-title">{{ event.main_attraction }}</h4>
+            {% endif %}
+            <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ event.local }}</p>
+            <small>{{ event.city }}/{{ event.state }} <i class="fas fa-clock"></i> {{ event.event_hour|slice(0,5)}}</small>
+        </div>
+    </a>
+</div>

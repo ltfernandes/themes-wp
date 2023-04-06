@@ -1,0 +1,14 @@
+{% if(categoria_nome)%}
+<h2>{{categoria_nome}}</h2>
+{% endif %}
+{% if (events) %}
+<div class="row">
+    {% for event in events %}
+    {% if (event.type=='UNIDADE') %}
+    {% include "unitcard.inc.htm" %}
+    {% else %}
+    {% include "eventcard.inc.htm" %}
+    {% endif %}
+    {% endfor %}
+</div>
+{% endif %}

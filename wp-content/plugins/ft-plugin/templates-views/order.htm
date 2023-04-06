@@ -1,0 +1,163 @@
+{% if (pedido.id) %}
+<div>
+    <h4 class="blue-title">ID PEDIDO: #{{ pedido.id }} <span
+            class="badge badge-{{ pedido.label_color }}">{{ pedido.status }}
+        </span>
+    </h4>
+    {% if (pedido.payments[0]['fpgto']) %}
+    <div class="order-payments">
+        <h4>Forma de Pagamento</h4>
+        <div class="row">
+            {% for fpgto in pedido.payments	 %}
+            <div class="col-md-6 col-12">
+                {% if fpgto.fpgto == 'BOLETO' %}
+                <div>
+                    <b>{{ fpgto.fpgto }}</b> <span class="badge badge-{{ fpgto.fpgto_label }}">{{ fpgto.status }}</span>
+                    Vencimento: {{ fpgto.date_due| date("d/m/Y") }}
+                </div>
+                <div>{{ fpgto.cob_nome }}</div>
+                <div>
+                    <a href="{{ fpgto.url_boleto }}" class="btn btn-success" target="_blank"> <i
+                            class="fa fa-barcode"></i>
+                        Abrir Boleto</a>
+                </div>
+                {% elseif fpgto.fpgto == 'PIX' %}
+                <div>
+                    <b>{{ fpgto.fpgto }}</b> <span class="badge badge-{{ fpgto.fpgto_label }}">{{ fpgto.status }}</span>
+                    Vencimento: {{ fpgto.date_due| date("d/m/Y") }}
+                </div>
+                <div>{{ fpgto.cob_nome }}</div>
+                {% if (fpgto.status == 'PENDENTE') %}
+                <div>
+                    <div class="alert alert-warning">
+                        <b>Por favor, realize o pagamento com PIX:</b>
+                        <div><small>Após realizar o pagamento, essa página será automaticamente recarregada.</small></div>
+                        <p class="text-center">
+                            <img src="{{ fpgto.qrcode }}" width="200" height="200"></p>
+                            <p>
+                                <b>Copiar e colar:</b>
+                            </p>
+                            <div class="alert alert-light" onclick="copyClip('pix-text')">
+                                <div id="pix-text" style="width:100%;padding:10px;overflow-x:auto;cursor: pointer;">{{ fpgto.url_boleto }}</div>
+                            </div>
+                        </div>
+                        <script>atualizaStatusPix('{{ hash_localizador }}')</script>
+                </div>
+                {% endif %}
+                {% else %}
+                <div>
+                    <b>{{ fpgto.fpgto }}</b> {{ fpgto.bin }} <span
+                        class="badge badge-{{ fpgto.fpgto_label }}">{{ fpgto.status }} </span>
+                </div>
+                <div>
+                    {{ fpgto.holder_name	}}
+                </div>
+                <div>
+                    {{ fpgto.brand|upper }} | Parcelas: {{ fpgto.installments }}x | Total
+                    R${{fpgto.total|number_format(2,',','.')}}
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="order-sales">
+        {% for sale in pedido.sales	%}
+        <!--Tabela Produtos-->
+
+        <div class="responsive">
+            <h3>{{sale.event}}</h3>
+            <table class="table table-hover table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Plano</th>
+                        <th>Quantidade</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in sale.summary	%}
+                    <tr>
+                        <td>{{item.plan}}</td>
+                        <td class="text-center">{{item.quant}}</td>
+                        <td class="text-right">{{(item.price * item.quant)|number_format(2,',','.')}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if (sale.description_delivery) %}
+        <div class="description-delivery">{{sale.description_delivery}}</div>
+        {% endif %}
+        <!--Ingressos-->
+        {% if (sale.tickets) %}
+        <div class="order-tickets">
+            <h4>Ingressos:</h4>
+            <div class="row">
+                {% for ticket in sale.tickets %}
+                <div class="col-12 col-lg-4">
+                    <div class="card pad">
+                        <div class="card-header ticket-plan"><i class="fa fa-ticket"></i> {{ticket.plan}}</div>
+                        <div class="card-body p-4">
+                            {% if (ticket.status == "VALIDADO") %}
+                            <div>
+                                <div class="text-right">
+                                    {% if (ticket.allows_edit=='S' and ticket.checkin=='N' and ticket.visit_date > now|date('Y-m-d')) %}
+                                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                                        data-target="#modal-ticket-edit-{{ticket.id}}"><span><i class="fa fa-edit"></i>
+                                            Editar Ingresso</span></button>
+                                    {% else %}
+                                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
+                                        data-target="#modal-ticket-view-{{ticket.id}}"><span><i class="fa fa-eye"></i>
+                                            Dados do Ingresso</span></button>
+                                    {% endif %}
+                                </div>
+                                {% if (ticket.name) %}
+                                <i>Em nome de:</i>
+                                <br><b>{{ ticket.name }}</b>
+                                {% endif %}
+                            </div>
+                            <a href="{{ ticket.eticket_url }}" target="_blank">
+                                <div class="ticket-id">#{{ticket.id}}</div>
+
+                                <div class="ticket-qrcode">
+                                    <img src="{{ticket.qrCode_url}}">
+                                </div>
+                            </a>
+
+                            <b>
+                                <i class="fa fa-calendar"></i> {{ (ticket.type=='unidade') ? 'Data da visita:':''}}
+                                {{ticket.visit_date|date('d/m/Y')}}
+                                {{ (ticket.visit_time and ticket.visit_time!="00:00:00") ? ticket.visit_time|slice(0,5) : "" }}</b><br>
+
+                            {% if (ticket.validate) %}
+                            <small><i class="fa fa-calendar"></i> Válido até
+                                {{ticket.validate|date('d/m/Y')}}</small><br>
+                            {% endif %}
+
+                            {% if (ticket.allows_edit=='S' and ticket.checkin=='N' and ticket.visit_date >= now|date('Y-m-d')) %}
+                            {% include 'modal-ticket-edit.htm' %}
+                            {% else %}
+                            {% include 'modal-ticket-view.htm' %}
+                            {% endif %}
+
+                            {% else %}
+                            <div class="alert alert-danger">INGRESSO BLOQUEADO</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-danger">Nenhum ingresso disponível no momento!</div>
+        {% endif %}
+
+        {% endfor %}
+    </div>
+</div>
+{% endif %}

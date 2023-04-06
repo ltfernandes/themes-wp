@@ -1,0 +1,196 @@
+<div class="wrap nosubsub">
+    <h3>Configurações Gerais da API</h3>
+    <hr>
+    <div class="row">
+        <div class="col-md-6 col-12">
+            <form name="frm" id="frm" method="post" action="?page=config-edit">
+                <h3>Frameticket API</h3>
+                <div class="row">
+                    <div class="col-md-6 col-6 pad-ft">
+                        <div><label class="label-ft" for="apiKeyFt">API Key da Plataforma:</label></div>
+                        <input type="text" class="form-control" id="apiKeyFt" name="apiKeyFt">
+                        <div style="background:#E5F3FE;padding:5px;width:fit-content;font-weight:bold;">
+                            {{(apiKeyFt) ? apiKeyFt|slice(0,20)~'...': 'Não informado'}}</div>
+                    </div>
+                    <div class="col-md-6 col-6 pad-ft">
+                        <div><label class="label-ft" for="apiKeyFtOrg">API Key do Organizador:</label></div>
+                        <input type="text" class="form-control" id="apiKeyFtOrg" name="apiKeyFtOrg">
+                        <div style="background:#E5F3FE;padding:5px;width:fit-content;font-weight:bold;">
+                            {{(apiKeyFtOrg) ? apiKeyFtOrg|slice(0,20)~'...':'Não informado'}}</div>
+                    </div>
+                    <div class="col-md-12 col-12 pad-ft">
+                        <div><label class="label-ft" for="apiUrlFt">URL da API:</label></div>
+                        <input type="text" class="form-control" id="apiUrlFt" name="apiUrlFt" value="{{apiUrlFt}}">
+                    </div>
+                </div>
+                <hr>
+                <h3>Configurações para o site</h3>
+                <div class="row">
+                    <div class="col-md-6 col-12 pad-ft">
+                        <div><label class="label-ft" for="vendas_off">Desativar vendas online?</label></div>
+                        <input type="checkbox" name="vendas_off" id="vendas_off" value="S"
+                            {{ vendas_off=="S" ? "checked": "" }}> <label class="label-ft" for="vendas_off"
+                            style="margin-right:10px">Sim</label>
+                    </div>
+                    <div class="col-md-6 col-12 pad-ft">
+                        <div><label class="label-ft" for="vendas_carrinho">Ativar carrinho de compras?</label></div>
+                        <input type="checkbox" name="vendas_carrinho" id="vendas_carrinho" value="S"
+                            {{ vendas_carrinho=="S" ? "checked": "" }}> <label class="label-ft" for="vendas_carrinho"
+                            style="margin-right:10px">Sim</label>
+                    </div>
+                    <div class="col-md-6 col-6 pad-ft">
+                        <div><label class="label-ft" for="cadastro_menor">Permite o cadastro de menores de 18
+                                anos?</label></div>
+                        <br>
+                        <input type="checkbox" name="cadastro_menor" id="cadastro_menor" value="N"
+                            {{ cadastro_menor=="N" ? "checked": "" }}> <label class="label-ft" for="cadastro_menor"
+                            style="margin-right:10px">Não</label>
+                    </div>
+                    <div class="col-md-6 col-6 pad-ft">
+                        <div><label class="label-ft" for="desativar_cupom">Desativar formulário de cupom?</label></div>
+                        <br>
+                        <input type="checkbox" name="desativar_cupom" id="desativar_cupom" value="S"
+                            {{ desativar_cupom=="S" ? "checked": "" }}> <label class="label-ft" for="desativar_cupom"
+                            style="margin-right:10px">Sim</label>
+                    </div>
+                    <div class="col-md-6 col-6 pad-ft">
+                        <div><label class="label-ft" for="sem_conta">Permitir comprar sem criação de conta?</label>
+                        </div>
+                        <br>
+                        <input type="checkbox" name="sem_conta" id="sem_conta" value="S"
+                            {{ sem_conta=="S" ? "checked": "" }}> <label class="label-ft" for="sem_conta"
+                            style="margin-right:10px">Sim</label>
+                    </div>
+                    <div class="col-md-6 col-6 pad-ft">
+                        <div><label class="label-ft" for="cadastro_simplificado">Cadastro simplificado?</label></div>
+                        <br>
+                        <input type="checkbox" name="cadastro_simplificado" id="cadastro_simplificado" value="S"
+                            {{ cadastro_simplificado=="S" ? "checked": "" }}> <label class="label-ft"
+                            for="cadastro_simplificado" style="margin-right:10px">Sim</label>
+                    </div>
+                    <div class="col-md-12 col-12 pad-ft">
+                        <div>
+                            <label class="label-ft" for="fontes_externas">Permitir fontes externas de scripts e
+                                styles (Content-Security-Policy):</label>
+                            <div>
+                                <small>
+                                    Separe com quebra de linha, exemplo:<br>
+                                    https://google.com<br>
+                                    https://youtube.com
+                                </small>
+                            </div>
+                        </div>
+                        <textarea type="text" class="form-control" cols="75" rows="10" nowrap id="fontes_externas"
+                            name="fontes_externas">{{fontes_externas}}</textarea>
+                    </div>
+                </div>
+
+                <hr>
+                <h3>Facebook</h3>
+                <div class="row">
+                    <div class="col-md-6 col-12 pad-ft">
+                        <div><label class="label-ft" for="fb_id">ID da Aplicação:</label></div>
+                        <input type="text" class="form-control" id="fb_id" name="fb_id" value="{{fb_id}}">
+                    </div>
+                    <div class="col-md-6 col-12 pad-ft">
+                        <div><label class="label-ft" for="fb_secret">Chave Secreta:</label></div>
+                        <input type="text" class="form-control" id="fb_secret" name="fb_secret" value="{{fb_secret}}">
+                    </div>
+                </div>
+
+                <hr>
+                <h3>Pixel Facebook</h3>
+                <div class="row">
+                    <div class="col-md-12 col-12 pad-ft">
+                        <div><label class="label-ft" for="fb_pixel_id">ID Pixel:</label></div>
+                        <input type="text" class="form-control" id="fb_pixel_id" name="fb_pixel_id"
+                            value="{{fb_pixel_id}}">
+                    </div>
+                </div>
+
+                <hr>
+                <h3>Google Analytics E-commerce</h3>
+                <div class="row">
+                    <div class="col-md-12 col-12 pad-ft">
+                        <div><label class="label-ft" for="ganalytics_id">Tag GA4 da Propriedade:</label></div>
+                        <input type="text" class="form-control" id="ganalytics_id" name="ganalytics_id"
+                            value="{{ganalytics_id}}">
+                    </div>
+                </div>
+
+                <hr>
+
+                <h3>Google reCAPTCHA v3</h3>
+                <div class="row">
+                    <div class="col-md-6 col-12 pad-ft">
+                        <div><label class="label-ft" for="rc_public_key">Chave do Site:</label></div>
+                        <input type="text" class="form-control" id="rc_public_key" name="rc_public_key" value="{{rc_public_key}}">
+                    </div>
+                    <div class="col-md-6 col-12 pad-ft">
+                        <div><label class="label-ft" for="rc_secret_key">Chave Secreta:</label></div>
+                        <input type="text" class="form-control" id="rc_secret_key" name="rc_secret_key" value="{{rc_secret_key}}">
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary button">Salvar Configurações</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="row">
+                <div class="col-6">
+                    <h3>Shortcodes</h3>
+                </div>
+                <div class="col-6" style="text-align: end;">
+                    <button type="button" class="btn btn-primary button m-2" onclick="gerarPaginas('oie')">
+                        <span class="btn-gerar-paginas"> Gerar Páginas </span>
+                        <span class="btn-gerar-paginas px-2" style="display:none;"> Aguarde... </span>
+                    </button>
+                </div>
+            </div>
+            <table class="wp-list-table widefat striped table-view-list">
+                <thead>
+                    <tr>
+                        <th><b>Shortcode</b></th>
+                        <th><b>Descrição</b></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for shortcode, paramns in shortcodes %}
+                    <tr>
+                        <td><b>[{{shortcode}} {{paramns.attributes}}]</b></td>
+                        <td>{{paramns.description}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+<script>
+    function gerarPaginas() {
+        var textBtnGerarPaginas = document.getElementsByClassName('btn-gerar-paginas');
+        toggleBtnVisibility(textBtnGerarPaginas);
+
+        x_addPagesDefault(function (res) {
+            toggleBtnVisibility(textBtnGerarPaginas);
+            alert(res);
+        });
+    }
+
+    function toggleBtnVisibility(text) {
+        var btn = text[0].parentNode;
+        btn.disabled = !btn.disabled;
+        for (let i = 0; i < text.length; i++) {
+            if (text[i].style.display === 'none') {
+                text[i].style.display = 'block';
+            } else {
+                text[i].style.display = 'none';
+            }
+        }
+    }
+</script>

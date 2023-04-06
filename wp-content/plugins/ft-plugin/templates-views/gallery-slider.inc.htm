@@ -1,0 +1,25 @@
+<div id='carouselslider' class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner" style="bakcground:#000">
+
+        {% for c,img in gallery %}
+            <div class="carousel-item {{ (c==0) ? 'active' : '' }}">
+                    <img src="{{ img }}" style="object-fit:contain">
+            <div class="carousel-caption d-none d-md-block">
+
+            </div>
+        </div>
+        {% endfor %}
+
+        {% if ( gallery|length > 1 ) %}
+        <a href="#carouselslider" class="carousel-control-prev" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            <span class="sr-only">Anterior</span>
+        </a>
+
+        <a href="#carouselslider" class="carousel-control-next" role="button" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            <span class="sr-only">Próximo</span>
+        </a>
+        {% endif %}
+    </div>
+</div>

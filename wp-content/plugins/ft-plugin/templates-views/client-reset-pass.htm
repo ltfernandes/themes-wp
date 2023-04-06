@@ -1,0 +1,17 @@
+<div class="form-group col-6 no-margin pad">
+    <label for="id_org" class="control-label">Por favor, informe a sua nova senha de acesso:</label>
+    {% if login_nocaptcha_key %}
+    <div class="form-row">
+        <div class="form-group col-md-12 col-12">
+            <div class="g-recaptcha" data-sitekey="{{ login_nocaptcha_key }}"></div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="input-group">
+        <input type="password" id="nova-senha" name="nova_senha" class="form-control input-sm" data-key="{{ key }}"
+            placeholder="Nova senha">
+        <span class="input-group-btn"><button type="button" id="btn-salvar-senha" data-loading-text="Aguarde ..."
+                class="btn btn-success">Salvar</button></span>
+    </div>
+    <div id="resultado" class="pad"></div>
+</div>

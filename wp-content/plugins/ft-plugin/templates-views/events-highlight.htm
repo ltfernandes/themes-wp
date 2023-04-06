@@ -1,0 +1,9 @@
+{% if (events) %}
+    {% for event in events %}
+    {% if (event.type=='UNIDADE') %}
+    {% include "unitcard.inc.htm" %}
+    {% else %}
+    {% include "eventcard.inc.htm" %}
+    {% endif %}
+    {% endfor %}
+{% endif %}

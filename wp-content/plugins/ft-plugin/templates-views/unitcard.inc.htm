@@ -1,0 +1,9 @@
+<div class="col-lg-3 col-md-4 pt-4 mb-4">
+    <a class="card" href="{{ site_url }}/unit/{{ event.id }}/{{ event.slug }}">
+        <div class="card-img-top" style="height:16rem;background: url('{{ event.image_url }}');background-size: cover;background-repeat: no-repeat;"></div>
+        <div class="card-body">
+            <h5 class="card-title">{{ event.title }}</h5>
+            <p class="card-text"><i class="fas fa-map-marker-alt"></i> {{ event.city }}/{{ event.state }}</p>
+        </div>
+    </a>
+</div>

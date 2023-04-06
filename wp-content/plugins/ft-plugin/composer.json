@@ -1,0 +1,22 @@
+{
+    "name": "frameticket/plugin",
+    "description": "Plugin Frameticket",
+    "type": "project",
+    "license": "Comercial",
+    "autoload": {
+        "psr-4": {
+            "PluginFrameticket\\Control\\": "src/Control/",
+            "PluginFrameticket\\Middleware\\": "src/Middleware/",
+            "PluginFrameticket\\Core\\": "src/Core/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alquimídia Tecnologia",
+            "email": "dev@alquimidia.com.br"
+        }
+    ],
+    "require": {
+        "timber/timber": "^1.18"
+    }
+}
