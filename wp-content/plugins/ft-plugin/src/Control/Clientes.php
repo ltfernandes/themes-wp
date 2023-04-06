@@ -14,6 +14,7 @@ class Clientes extends Controller
     {
         $this->_api = new Api();
         $this->_config = new Config();
+
         if ($_GET['redirect']) {
             $this->setUrlCallback($_GET['redirect']);
         }
@@ -26,6 +27,7 @@ class Clientes extends Controller
     {
         $this->_args = $args;
         $res = [];
+
         if (count($_POST) && $this->_api->validaPost($_POST)) {
             $res = $this->setCadastro($_POST);
             $this->renderTemplate('msg', $res);
@@ -33,10 +35,8 @@ class Clientes extends Controller
             unset($_POST);
         }
 
-
         if ($res['status'] == 'FAIL' || !$res['status']) {
             $dados = $this->get($_POST);
-
             $dados['permite_menor'] = $this->_config->_cadastro_menor;
             $dados['site_url'] = get_site_url();
             $dados['url_politicas'] = get_privacy_policy_url();
@@ -58,7 +58,6 @@ class Clientes extends Controller
     {
         $this->_args = $args;
         $dados['login_nocaptcha_key'] = get_option('login_nocaptcha_key');
-
         $objPedido = new Pedidos();
         $dados['carrinho'] =  $objPedido->getCarrinho();
         $dados['totais'] =  $objPedido->getTotalCarrinho();
@@ -99,11 +98,8 @@ class Clientes extends Controller
         $this->renderTemplate('client-login', $args);
     }
 
-
-
     public function showMenuMinhaConta($attr = [])
     {
-
         $this->_args = $attr;
         $nav_mobile = ($attr['mobile'] == 'S') ? '-mobile' : '';
         $objPed = new Pedidos();
@@ -131,10 +127,10 @@ class Clientes extends Controller
         global $wp_query;
         $this->_args = $args;
         $key = $wp_query->query_vars['id'];
+
         if ($key) {
             $dados['login_nocaptcha_key'] = get_option('login_nocaptcha_key');
             $dados['key'] = $key;
-
             $objPedido = new Pedidos();
             $dados['carrinho'] =  $objPedido->getCarrinho();
             $dados['totais'] =  $objPedido->getTotalCarrinho();
@@ -172,10 +168,13 @@ class Clientes extends Controller
     {
         $this->_api->get('/site/search-states');
         $html = '';
+
         if ($this->_api->ret) {
             $html .= '<option value=""></option>';
+
             foreach ($this->_api->ret as $id => $d) {
                 $selected = ($estado == $id) ? "selected" : "";
+
                 if ($d['estado']) {
                     $html .= '<option value="' . $id . '" ' . $selected . '>' . $d['estado'] . '</option>';
                 }
@@ -188,9 +187,12 @@ class Clientes extends Controller
     {
         if ($estado) {
             $this->_api->get('/site/search-citys/' . $estado);
+
             if ($formato == 'HTML') {
+
                 if (count($this->_api->ret)) {
                     $html = '<option value=""></option>';
+
                     foreach ($this->_api->ret as $d) {
                         $selected = ($cidade == $d['value']) ? "selected" : "";
                         $html .= '<option value="' . $d['value'] . '" ' . $selected . '>' . $d['text'] . '</option>';
@@ -217,6 +219,7 @@ class Clientes extends Controller
         if ($email) {
             $this->_api->postJson(['email' => $email, 'id' => $id, 'tokenFt' => $_SESSION['tokenPost']], '/site/verifyEmail');
             $res = $this->_api->ret;
+
             if ($res['id_cliente']) {
                 return 'FAIL';
             } else {
@@ -228,21 +231,20 @@ class Clientes extends Controller
     public function verifyLogin($login, $senha, $ambiente = '')
     {
         if ($login && $senha) {
-
             $objConfig = new Config();
+
             if ($objConfig->verifyRcScore()['status'] == 'FAIL' && $ambiente == 'pagamento') {
                 return [
                     'status' => 'FAIL',
                     'msg' => 'Acesso não autorizado!',
                 ];
             }
-
             $this->_api->postJson(['login' => $login, 'password' => md5($senha), 'tokenFt' => $_SESSION['tokenPost']], '/site/login-client');
             $res = $this->_api->ret;
 
             if ($res['id']) {
-
                 $this->setAuth($res);
+
                 if ($this->getUrlCallback()) {
                     $this->zeraUrlCallback();
                     return [
@@ -279,10 +281,9 @@ class Clientes extends Controller
         if (get_option('login_nocaptcha_secret')) {
             $remoteip = $_SERVER["REMOTE_ADDR"];
             $secret = get_option('login_nocaptcha_secret');
-            //echo "secret $secret";
             $payload = array('secret' => $secret, 'response' => $response, 'remoteip' => $remoteip);
-
             $result = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', array('body' => $payload));
+
             if (is_wp_error('WP_Error')) { // disable SSL verification for older cURL clients
                 $ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, 'https://www.google.com/recaptcha/api/siteverify');
@@ -317,7 +318,6 @@ class Clientes extends Controller
                 'status' => 'FAIL'
             ];
         }
-
         $datanasc = explode('/', $p['datanasc']);
         $idade = date('Y') - $datanasc[2];
         $status = 'FAIL';
@@ -326,33 +326,28 @@ class Clientes extends Controller
         $nomeCompleto = explode(" ", $p['nome']);
 
         if ($p['tipo_login'] == 'FACEBOOK' || $p['tipo_login'] == 'EMAIL') {
-            //Valida recapcha
-            /*
-            if (!$this->validaReCaptcha($p['g-recaptcha-response'])) {
-                $msg_erro = "Validação do captcha incorreta.";
-            }*/
             //Valida campos obrigatórios
             if (!$p['nome'] || !$p['doc_principal'] || !$p['documento_num'] || !$p['celular'] || !$p['datanasc'] || !$p['cep'] || !$p['endereco'] || !$p['bairro'] || !$p['estado'] || !$p['cidade'] || !$p['email']) {
                 $msg_erro = "Por favor, preencha todos os campos com asterísco (*).";
-            }
-            //Nome completo
-            else if (count($nomeCompleto) <= 1) {
+                //Nome completo
+
+            } else if (count($nomeCompleto) <= 1) {
                 $msg_erro = "Por favor, informe seu nome completo!";
-            }
-            //aceite
-            else if ($p['aceite'] != 'S' && !$this->isLogado()) {
+                //aceite
+
+            } else if ($p['aceite'] != 'S' && !$this->isLogado()) {
                 $msg_erro = "Você não confirmou o aceite nas políticas de uso do site.";
-            }
-            //se nao aceita menor de idade
-            else if ($this->_config->_cadastro_menor == 'N' && $idade < 18) {
+                //se nao aceita menor de idade
+
+            } else if ($this->_config->_cadastro_menor == 'N' && $idade < 18) {
                 $msg_erro = "Não será permitido acesso aos menores de 18 (dezoito) anos sem o consentimento expresso de seus pais, tutores ou representantes legais. Maiores informações, por favor, entre em contato conosco.";
-            }
-            //Se o tipo de autenticação for email, confirma a senha digitada
-            else if ($p['tipo_login'] == 'EMAIL' && ($p['senha'] != $p['csenha'] || !$p['senha'] || !$p['csenha'])) {
+                //Se o tipo de autenticação for email, confirma a senha digitada
+
+            } else if ($p['tipo_login'] == 'EMAIL' && ($p['senha'] != $p['csenha'] || !$p['senha'] || !$p['csenha'])) {
                 $msg_erro = "As senhas não conferem, por favor, tente novamente.";
-            }
-            //Verifica o email
-            else if ($this->verifyEmail($p['email'], $this->getUser('id')) == 'FAIL') {
+                //Verifica o email
+
+            } else if ($this->verifyEmail($p['email'], $this->getUser('id')) == 'FAIL') {
                 $msg_erro = "Esse e-mail já está em uso por outro cadastro, você pode utilizar o recurso <b>Esqueci Minha Senha</b> para recuperá-lo.";
             }
             //tudo certo, envia para cadastrar
@@ -375,6 +370,7 @@ class Clientes extends Controller
                     'accepted_news' => ($p['recebe_news'] == 'S') ? 'S' : 'N',
                     'tokenFt' => $_SESSION['tokenPost']
                 ];
+
                 if ($this->isLogado()) {
                     $cadastro['id'] = $this->getUser('id');
                     $this->_api->postJson($cadastro, 'site/up-client');
@@ -382,12 +378,13 @@ class Clientes extends Controller
                     $this->_api->postJson($cadastro, 'site/add-client');
                 }
                 $res = $this->_api->ret;
-                //print_r($res);
+
                 if ($res['id']) {
                     $status = 'OK';
                     $p['id'] = $res['id'];
                     $p['cidade_nome'] = $res['city_name'];
                     $p['estado_nome'] = $res['state_name'];
+
                     if ($this->getUrlCallback()) {
                         $url = site_url($this->getUrlCallback());
                         $this->zeraUrlCallback();
@@ -403,7 +400,6 @@ class Clientes extends Controller
         } else {
             $msg_erro = "Formulário não reconhecido.";
         }
-
         return [
             'msg' => $msg,
             'msg_error' => $msg_erro,
@@ -431,6 +427,7 @@ class Clientes extends Controller
     public function get($post = [])
     {
         if ($post) {
+
             if ($this->isLogado()) {
                 $post['id'] = $this->getUser('id');
             }
@@ -521,9 +518,6 @@ class Clientes extends Controller
         return $_SESSION['auth'];
     }
 
-/**
- * 
- */
     public function requestRemoveAccount()
     {
         $post = [
@@ -534,19 +528,19 @@ class Clientes extends Controller
         return ["msg" => $this->_api->ret['msg']];
     }
 
-/**
- * Exibe mensagem de confirmação de exclusão de conta
- * @param string $
- */
+    /**
+    * Exibe mensagem de confirmação de exclusão de conta
+    * @param string $
+    */
     public function showConfirmRemove($args = [])
     {
-
         global $wp_query;
         $this->_args = $args;
         $hash = $wp_query->query_vars['id'];
-        if ($hash) {
 
+        if ($hash) {
             $this->_api->get("site/remove-account/" . $hash);
+
             if ($this->_api->ret['status'] == 'OK') {
                 $this->desconecta();
                 $dados = [
@@ -554,24 +548,17 @@ class Clientes extends Controller
                     'class' => 'success',
                 ];
             } else {
-
                 $dados = [
                     'msg' => $this->_api->ret['msg'],
                     'class' => 'danger',
                 ];
-
             }
-
-
         } else {
-
             $dados = [
                 'msg' => 'Dados insuficientes.',
                 'class' => 'warning',
             ];
         }
-
-
         $this->renderTemplate('client-confirm-remove', $dados);
     }
 }
