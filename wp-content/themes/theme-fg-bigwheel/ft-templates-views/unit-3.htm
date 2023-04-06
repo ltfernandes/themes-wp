@@ -1,0 +1,202 @@
+<div class="row justify-content-between">
+    <div class="col-lg-5 col-12">
+        <div class="row text-center">
+            <div class="col-12 mt-3">
+                <a href="./itens-adicionais/?etapa=2">
+                    <img class="img-fluid" src="http://aprova.fgbigwheel.com.br/wp-content/uploads/2022/04/voltar.png">
+                </a>
+            </div>
+            <div class="col-12 mt-3">
+                <div class="w-100 p-3" id="calendario-agendamento" data-timetable="{{ event.timetable }}" data-ide="{{ event.id }}"></div>
+            </div>
+            <div class="row px-2 text-center">
+                <div class="col-6 agenda_9_21 small">9h às 21h</div>
+                <div class="col-6 agenda_14_22 small">14h às 22h</div>
+                <div class="col-6 agenda_9_22 small">9h às 22h</div>
+                <div class="col-6 agenda_fechado small">FECHADO</div>
+            </div>
+        </div>
+        <div class="col-12 mt-3">
+            <div class="dropdown info-border">
+                <button class="btn btn-light btn-selhour dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Horários <span id="horario_sel"></span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <div id="agenda-horarios"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-3">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="ticket-expiration">
+                        <b>Validade dos ingressos:</b>
+                        <br>
+                        Os ingressos serão válidos para utilização em até 365 dias
+                        a partir da data da compra (visita única).
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5 col-12 align-content-between d-flex flex-wrap">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="my-order">MEUS PEDIDOS</h1>
+            </div>
+            <div class="col-12 my-5">
+                <table class="table cart-table">
+                    {% for c in carrinho[9201].produtos %}
+                    <tr>
+                        <td><b>{{c.quant}}x</b></td>
+                        <td>{{c.produto}}</td>
+                        <td class="text-right" nowrap>
+                            <b>R$ {{c.valor_venda|number_format(2,',','.')}}</b>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="parcelas mt-3 col-12">
+                {% include "parcelas.inc.htm" %}
+            </div>
+            <div class="col-12">
+                <img class="img-fluid" src="http://aprova.fgbigwheel.com.br/wp-content/uploads/2022/01/formas-de-pagamento-1.png">
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 info-border">
+                <h1>Total: R$
+                    <span>{{totais.total_compra|number_format(2,',','.')}}</span>
+                </h1>
+            </div>
+            <div class="col-12 mt-3">
+                <a href="#" onclick="avancarCheckout();void(0)">
+                    <img class="img-fluid w-100" src="http://aprova.fgbigwheel.com.br/wp-content/uploads/2022/04/finalizar.png">
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "finalysale.inc.htm" %}
+
+<script>
+    jQuery(document).ready(function ($) {
+        //Renderiza o calendário
+        {% if (event.date_blocked) %}
+        var disabledDates = ['{{ event.date_blocked|join("', '") }}'];
+        {% else %}
+        var disabledDates = [];
+        {% endif %}
+        agenda_9_21 = [];
+        agenda_14_22 = [];
+        agenda_9_22 = [];
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
+        $('#calendario-agendamento').datepicker({
+            format: "dd/mm/yyyy",
+            language: "pt-BR",
+            orientation: 'auto',
+            todayHighlight: true,
+            todayBtn: true,
+            clearBtn: true,
+            startDate: "+{{ event.start_date }}d",
+            endDate: "{{ date_visit_end }}",
+            daysOfWeekDisabled: [{{ week_block }}],
+            datesDisabled: disabledDates,
+            beforeShowDay: function (date) {
+                var dt = new Date(date);
+                dt.setHours(0, 0, 0, 0);
+
+                if (dt >= today) {
+                    var week = date.getDay();
+                    var day = date.getDate();
+                    var month = parseInt(date.getMonth()) + 1;
+
+                    if (month === 7) {
+
+                        if (day == 18 || day == 19 || day == 20) {
+                            return { classes: 'agenda_9_22' };
+                        }
+
+                        if (week == 5 || week == 6) {
+                            return { classes: 'agenda_9_22' };
+                        }
+
+                        if (week == 3) {
+                            return { classes: 'agenda_14_22' };
+                        }
+                    }
+
+                    if (month >= 8 && month <= 11) {
+                        //Libera nos feriados:
+                        if ((day >= 7 && day <=10 && month == 9) || (day == 30 && month == 10) || (day == 12 && month == 10) || (day == 15 && month == 11) || (day == 2 && month == 11)) {
+                            return { classes: 'agenda_9_22' };
+                        }
+
+                        if (week == 2) {
+                            return { classes: 'agenda_14_22'                             };
+                        }
+
+                        if (week == 3) {
+                            return { classes: 'agenda_fechado disabled' };
+                        }
+                    }
+                    //Padrão
+                    return { classes: 'agenda_9_21' };
+                }
+                //Passado
+                return { classes: 'agenda_passado disabled' };
+            }
+        });
+
+    $('#calendario-agendamento').on('changeDate', function (e) {
+        var data = e.format(0, "dd/mm/yyyy");
+        console.log('Data de visita selecionada: ', data);
+        $('#data_visita').val(data);
+        var ide = $(this).attr('data-ide');
+        var timetable = $(this).attr('data-timetable');
+        var cupom = $('#cupom').val();
+        var id_comissario = ($('#id_comissario').val()) ? $('#id_comissario').val() : 0;
+        
+        if ($('#convenio').val()) {
+            var convenio = $('#convenio').attr('data-id') + '|' + $('#convenio').val();
+        }
+        else {
+            convenio = '';
+        }
+        $('#agenda-horarios').html('Consultando ...');
+        x_consultaData('unidade', ide, data, timetable, cupom, id_comissario, convenio, function (res) {
+
+            if (res.type == 'hours') {
+                $('#agenda-horarios').html(res.html);
+            }
+
+            $('#data_visita_view').html(data);
+        });
+    });
+    $("#calendario-agendamento").datepicker("setDate", '{{"now"|date("d/m/Y")}}');
+    $("#calendario-agendamento").trigger("change");
+});
+
+    function showProductsHour(hora_visita, obj) {
+
+        if (hora_visita) {
+            $('.btn-hour').removeClass('active');
+            $(obj).addClass('active');
+            $('#hora_visita_view').html(hora_visita);
+            $('#hora_visita').val(hora_visita);
+            $('#horario_sel').html(": " + hora_visita);
+            showPlanos('unidade');
+        }
+    }
+
+    function avancarCheckout() {
+        finalizarCompra();
+    }
+</script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.pt-BR.min.js"></script>

@@ -1,0 +1,19 @@
+<form name="frmlogin" class="form-login" id="frmlogin" method="post" action="#">
+    {% if redirect %}
+    <p>Por favor, realize o login para prosseguir com o pagamento do seu pedido:</p>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-6 col-12">
+            {% include "form-login.inc.htm" %}
+        </div>
+        <div class="col-md-6 col-12 mt-3">
+            <div class="alert alert-info not-member">
+                <h5>Ainda não tenho uma conta!</h5>
+                <p>Se ainda não criou a sua conta, aproveite e faça o seu cadastro em poucos segundos!</p>
+                <p class="text-center">
+                    <a href="{{ url_cadastro }}" class="btn btn-primary"><span>Criar Conta</span></a>
+                </p>
+            </div>
+        </div>
+    </div>
+</form>

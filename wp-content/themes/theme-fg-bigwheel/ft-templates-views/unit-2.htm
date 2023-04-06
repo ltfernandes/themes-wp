@@ -1,0 +1,29 @@
+{% include "productlist.inc.htm" %}
+{% include "order-info.htm" %}
+{% include "finalysale.inc.htm" %}
+<script>
+    jQuery(document).ready(function ($) {
+        $("#btnVoltar").parent().removeClass('d-none');
+        $('.total-order').removeClass('text-left').addClass('text-center');
+    });
+    function voltarCheckout() {
+        window.history.back();
+    }
+
+    function avancarCheckout(etapa_atual) {
+        addCarrinho();
+    }
+
+    function addCarrinho() {
+        var ide = $('#ide').val();
+        var title = $('#ide').attr('rel-title');
+        if (ide) {
+            var post = $('#frm-event').serialize();
+            x_addCarrinho(ide, title, post, function (res) {
+                $('.carrinho_total').html(res.total_carrinho);
+                addCarrinhoGA();
+                window.location.href = './finalizar?etapa=3';
+            });
+        }
+    }
+</script>

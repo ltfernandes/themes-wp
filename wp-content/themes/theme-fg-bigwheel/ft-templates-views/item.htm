@@ -1,0 +1,27 @@
+
+<div class="col">
+    <div class="card h-100 item products" id="{{ index_plan }}" name="{{ plan.plan }}" price="{{ plan.price }}">
+        <img src="{{plan.background_url}}" class="card-img-top" alt="...">
+        <div class="card-body px-0">
+            <div class="button">
+                {% include "button-quant.inc.htm" %}
+            </div>
+            <div class="text-center">
+                <div class="plan-name mt-3">{{ plan.plan }} {{ (plan.batch)? ' - '~plan.batch : '' }}</div>
+                {{ (plan.convenio.id) ? "<div class='badge badge-success'><i class='fa fa-star'></i> com desconto do cartão</div>" : "" }}
+                {{ (plan.coupon_apply) ? "<div class='badge badge-success'>#"~cupom~"</div>" : "" }}
+                <div class="valor_plano mt-3" rel-valor="{{ plan.price }}">
+        
+                    {% if (plan.price_old > plan.price) %}
+                    <small class="plan-price-old">
+                         de <span class="plan-price-old-value"><s> R${{plan.price_old|number_format(2,',','.')}} </s></span>
+                    </small>
+                    <br>
+                    {% endif %}
+                    <strong class="plan-price">R${{plan.price|number_format(2,',','.')}}</strong>
+                </div>
+                <p class="plan-description mt-3">{{ plan.description|striptags }}</p>
+            </div>
+        </div>
+    </div>
+</div>

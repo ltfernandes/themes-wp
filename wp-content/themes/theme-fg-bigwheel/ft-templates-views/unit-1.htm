@@ -1,0 +1,36 @@
+<section class="unit-1">
+    {% include "productlist.inc.htm" %}
+    {% include "order-info.htm" %}
+</section>
+{% include "finalysale.inc.htm" %}
+<script>
+    jQuery(document).ready(function ($) {
+        //Zera o carrinho:
+        x_clearCarrinho(0, function () {
+            console.log('Tudo pronto para iniciar as compras!');
+        });
+    });
+
+    function voltarCheckout() {
+        window.location.href = './';
+    }
+
+    function avancarCheckout(etapa_atual) {
+        addCarrinho();
+    }
+
+
+    function addCarrinho() {
+        var ide = $('#ide').val();
+        var title = $('#ide').attr('rel-title');
+
+        if (ide) {
+            var post = $('#frm-event').serialize();
+            x_addCarrinho(ide, title, post, function (res) {
+                $('.carrinho_total').html(res.total_carrinho);
+                addCarrinhoGA();
+                window.location.href = './itens-adicionais?etapa=2';
+            });
+        }
+    }
+</script>

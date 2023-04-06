@@ -1,0 +1,11 @@
+<form name="frm-event" id="frm-event" action="#" method="POST">
+    <div class="container">
+        {% if (get.etapa) %}
+        {% include "unit-"~get.etapa~".htm" %}
+        {% else %}
+        {% include "wili-menu.htm" %}
+        {% include "unit-1.htm" %}
+        <input type="hidden" name="cupom" value="{{get.cupom}}">
+        {% endif %}
+    </div>
+</form>

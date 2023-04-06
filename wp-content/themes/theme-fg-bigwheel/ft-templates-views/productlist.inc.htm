@@ -1,0 +1,42 @@
+<section class="products-list">
+    {% if (event.plans.status=='FAIL') %}
+    <div class="alert alert-info msg-horario">{{ event.plans.msg }}</div>
+    {% else %}
+
+    {% if (event.plans) %}
+    <div class="row justify-content-center">
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 row-card-products">
+            {% for index_plan,plan in event.plans %}
+            
+            {% if (get.etapa < 2 and plan.product == false) %}
+            {% set box = box + 1 %}
+            {% include "item.htm" %}
+            {% elseif (get.etapa == 2 and plan.product == true) %}
+            {% set box = box + 1 %}
+            {% include "item.htm" %}
+            {% endif %}
+            {% if (box == 4) %}
+            {% set box = 0 %}
+            {% endif %}
+            
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<script>
+    $(".plano_quant").change(function () {
+        calcTotalcompra($(this));
+        var value = $(this).val();
+        
+        if (value) {
+            var id = $(this).attr('rel-id');
+            selecionadoGA(id);
+        }
+    });
+</script>
+{% elseif (event.msg) %}
+<div class="alert alert-info msg-horario">{{event.msg}}</div>
+{% else %}
+<div class="alert alert-info msg-horario">Nenhum plano disponível no momento!</div>
+{% endif %}
+{% endif %}

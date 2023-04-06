@@ -1,0 +1,703 @@
+:root {
+    --blue: #16B5CE;
+    --dark-blue: #194A99;
+    --pink: #F39B9A;
+    --yellow: #fecc35;
+    --blue-linear-gradient: linear-gradient(140deg, #12A8C0 0%, #1DCEEA 100%);
+    --blue-linear-gradient-reverse: linear-gradient(140deg, #1DCEEA 0%, #12A8C0 100%);
+    --padding-btn-comprar: 0.5rem 1.5rem 0.75rem 4.5rem;
+    --padding-btn-comprar-sm: 0.5rem 1rem 0.75rem 2.25rem;
+    --padding-btn-comprar-xs: 0.4rem 0rem 0.4rem 3rem;
+    --box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 23%);
+    --btn-box-shadow: 2px 8px 8px 0px rgb(0 0 0 / 30%);
+}
+/* Extra Small */
+@media (max-width:575px) {
+    .navbar-menu-header {
+        min-height: 187px !important;
+    }
+    
+    .btn-comprar {
+        padding: var(--padding-btn-comprar-xs) !important;
+        font-size: 1rem !important;
+    }
+}
+
+/* Small */
+@media (max-width:767px) {
+    .text-xxxlarge {
+        margin-top: 1.5rem;
+        font-size: xx-large;
+        line-height: 2.5rem;
+    }
+    
+    .text-xxxlarge > span {
+        font-size: x-large;
+    }
+    
+    .opening-hours {
+        margin-top: 1rem;
+    }
+    
+    .container-menu-footer > ul {
+        flex-direction: column !important;
+    }
+    
+    .container-menu-footer > ul > li {
+        margin-top: 0.25rem;
+    }
+    
+    .btn-comprar {
+        font-size: medium;
+        background-size: 2.75rem;
+        padding: var(--padding-btn-comprar-sm);
+    }
+}
+
+/* Mobile Devices */
+@media (max-width: 991px) {
+    .navbar-menu-header {
+        min-height: 250px;
+        box-shadow: 0px 10px 20px 0px rgb(0 0 0 / 19%);
+    }
+    
+    .navbar-menu-toggler {
+        text-align: right;
+        margin-left: auto;
+        width: fit-content;
+        height: fit-content;
+    }
+    
+    .navbar-menu-toggler > .navbar-toggler {
+        border-radius: 50px;
+        font-size: 3rem;
+        background-color: var(--blue);
+        padding: 1rem 1.25rem;
+        border: none !important;
+        color: white;
+        transition: 0.3s ease-in-out;
+    }
+    .navbar-menu-toggler > .navbar-toggler.open {
+        background-color: white;
+    }
+    
+    .navbar-menu-toggler > .navbar-toggler:hover {
+        opacity: 75%;
+    }
+}
+
+/* Large & above */
+@media (min-width: 992px) {
+    .navbar-expand-lg .navbar-nav {
+        justify-content: space-around;
+    }
+}
+
+.bg-blue {
+    background-color: var(--blue);
+    color: white;
+}
+
+
+#nav-icon-mobile {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    margin: 0px auto 8px auto;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition: 0.3s ease-in-out;
+    -o-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+#nav-icon-mobile span {
+    display: block;
+    position: absolute;
+    height: 9px;
+    width: 100%;
+    background: white;
+    border-radius: 9px;
+    opacity: 1;
+    left: 0;
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+    -webkit-transition: 0.3s ease-in-out;
+    -moz-transition: 0.3s ease-in-out;
+    -o-transition: 0.3s ease-in-out;
+    transition: 0.3s ease-in-out;
+}
+
+#nav-icon-mobile span:nth-child(1) {
+    top: 0px;
+}
+
+#nav-icon-mobile span:nth-child(2),
+#nav-icon-mobile span:nth-child(3) {
+    top: 18px;
+}
+
+#nav-icon-mobile span:nth-child(4) {
+    top: 36px;
+}
+
+#nav-icon-mobile.open span:nth-child(1) {
+    background: var(--blue);
+    top: 18px;
+    width: 0%;
+    left: 50%;
+}
+
+#nav-icon-mobile.open span:nth-child(2) {
+    background: var(--blue);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+#nav-icon-mobile.open span:nth-child(3) {
+    background: var(--blue);
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+#nav-icon-mobile.open span:nth-child(4) {
+    background: var(--blue);
+    top: 18px;
+    width: 0%;
+    left: 50%;
+}
+
+#navbarMenuMobile {
+    position: absolute;
+    margin-right: 3rem;
+    right: 0rem;
+    top: 6rem;
+    box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 50%);
+    opacity: 90%;
+    padding: 12px;
+    line-height: 2.5rem;
+    background-color: #12A9C1C9;
+    text-decoration: none !important;
+}
+
+#navbarMenuMobile a {
+    font-family: "Montserrat", Sans-serif !important;
+    font-weight: 500;
+    text-decoration: none;
+    color: white !important;
+}
+
+#navbarMenuMobile a:hover {
+    text-decoration: underline !important;
+}
+
+.navbar-menu {
+    background-image: var(--blue-linear-gradient);
+    padding: 2.5rem;
+    border-radius: 0.75rem;
+    box-shadow: var(--box-shadow);
+    transform: translate3d(10px, 30px, 10px);
+    z-index: 2;
+}
+
+.navbar-menu a.nav-link {
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out, text-decoration 0.3s ease-in;
+}
+
+.navbar-menu a.nav-link:hover {
+    color: #dddddd;
+    font-weight: 600;
+    text-decoration: underline !important;
+}
+
+.btn-minha-conta,
+.btn-minha-conta:hover {
+    background-color: var(--pink);
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1.25rem;
+    font-size: large;
+    text-transform: capitalize;
+    box-shadow: var(--box-shadow);
+    border: none;
+    transition: 0.2s ease-in-out;
+}
+
+.btn-minha-conta:hover {
+    opacity: 95%;
+}
+
+.btn-minha-conta > i {
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+.btn-comprar,
+.btn-comprar:hover,
+.btn-comprar:any-link {
+    background-color: var(--yellow);
+    color: white;
+    border: none;
+    font-weight: 600;
+    padding: var(--padding-btn-comprar);
+    font-size: large;
+    text-transform: lowercase;
+    transform: rotate(356deg);
+    transition: 0.15s ease-in-out;
+    box-shadow: var(--btn-box-shadow);
+    background-image: url(https://fgbigwheel.com.br/wp-content/uploads/elementor/thumbs/INGRESSO-pofffzkgnzjm5l6tpsi94spg1ugm0o1lvujlulhhug.png);
+    background-repeat: no-repeat;
+    background-position: 5% 50%;
+    margin-left: 1rem;
+    max-width: 300px;
+}
+
+.btn-comprar:active {
+    transform: translateY(4px) rotate(356deg) !important;
+    box-shadow: var(--box-shadow) !important;*
+}
+.btn-comprar:hover {
+    opacity: 95%;
+}
+
+.mobile-carousel {
+    height: 770px;
+    
+}
+
+.mobile-carousel img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel {
+    height: 100%;
+}
+
+.carousel-inner {
+    height: 100%;
+}
+
+.carousel-item {
+    height: 100%;
+}
+
+.div-menu-wili {
+    z-index: 1;
+}
+
+.wili-menu {
+    max-height: 200px;;
+}
+
+.menu-wili {
+    padding: 1.25rem 1rem;
+    border-radius: 20px;
+    box-shadow: var(--box-shadow);
+    transform: translate3d(10px, -20px, 10px);
+    background-color: transparent;
+    background-image: var(--blue-linear-gradient-reverse);
+    max-width: 1200px;
+}
+
+.menu-wili a,
+.menu-wili p {
+    color: white;
+    font-size: 14px;
+    text-decoration: none;
+    transition: text-decoration 0.3s ease-in;
+    font-weight: 700;
+}
+
+.menu-wili a:hover {
+    text-decoration: underline;
+}
+
+.menu-wili img {
+    margin-bottom: 0.5rem;
+}
+
+.menu-wili span {
+    line-height-step: 10px;
+}
+.menu-wili span::before {
+    content: "\a";
+    white-space: pre;
+}
+
+.wili img{
+    transform: scale(2) translate(-15px, -55px);
+    max-width: 100%;
+    z-index: 0;
+}
+
+.carousel-item img{
+    max-height: 35rem;
+    width: 100%;
+}
+
+.text-darkblue {
+    color: var(--dark-blue);
+}
+
+.text-xxxlarge {
+    font-size: xxx-large;
+    line-height: 3rem;
+}
+
+.text-xxxlarge > span {
+    font-size: xx-large;
+    line-height: 3rem;
+}
+
+.form-cupom-wili {
+    background: var(--blue-linear-gradient);
+    border-radius: .5rem;
+    margin-top: 1rem;
+    height: 100px;
+}
+
+.form-cupom-wili label {
+    color: white;
+    font-size: x-large;
+    font-weight: 600;
+}
+
+.form-cupom-wili input {
+    border: none;
+    height: 2.5rem;
+    border-radius: 0.25rem;
+}
+
+.row-card-products .card {
+    border: none;
+}
+
+.row-card-products .card-img-top {
+    border-radius: 1rem;
+}
+
+.btn-products {
+    background-color: var(--blue);
+    color: white;
+    font-size: large;
+    font-weight: bolder;
+}
+
+button.add-quant,
+button.add-quant:enabled,
+button.remove-quant,
+button.remove-quant:enabled {
+    background: #33A8C0;
+    border: none;
+    color: #fff;
+    height: 45px;
+}
+
+button.add-quant {
+    border-radius: 0px 5px 5px 0px;
+}
+
+button.remove-quant {
+    border-radius: 5px 0px 0px 5px;
+}
+
+.plano_quant {
+    border: 1px solid #33A8C0;
+    width: 50px;
+    font-weight: bold;
+    color: #12A8C0 !important;
+    text-align: center
+}
+
+.plan-name {
+    text-align: center;
+    color: #000000;
+    font-family: 'Montserrat', Sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.plan-description {
+    text-align: center;
+    color: #7A7A7A;
+}
+
+h2.my-order {
+    color: #008DC2;
+    font-family: 'Roboto', Sans-serif;
+    font-weight: 600;
+    font-size: 2.5rem;
+}
+
+h1.my-order {
+    font-size: 2.5rem;
+}
+
+.cart-table td {
+    border:none !important;
+    background:#fff !important;
+}
+
+.info-border {
+    border-style: solid !important;
+    border-width: 2px 2px 2px 2px;
+    border-color: #12A8C0;
+    transition: background 0.3s, border 0.3s, border-radius 0.3s, box-shadow 0.3s;
+    border-radius: 20px 20px 20px 20px;
+    padding:15px;
+}
+
+.info-border > h1 {
+    font-size: 2.5rem;
+    color:#008DC2;
+}
+
+.ticket-expiration {
+    color: #194A99;
+    font-family: 'Montserrat', Sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.footer-totais h1 {
+    color: var(--blue);
+}
+
+.btn-avancar {
+    background-image: var(--blue-linear-gradient);
+    color: white;
+    font-size: xx-large;
+    font-weight: 600;
+}
+
+h1 {
+    color: var(--blue);
+    font-family: "Roboto", Sans-serif;
+    font-size: 100px;
+    font-weight: 600;
+}
+
+h2 {
+    color: var(--dark-blue);
+    font-family: "Montserrat", Sans-serif;
+    font-weight: 600;
+}
+
+p {
+    color: var(--dark-blue);
+    font-family: "Montserrat", Sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+}
+
+.container-menu-footer {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.container-menu-footer > ul > li {
+    color: var(--dark-blue);
+    font-family: "Montserrat", Sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.container-menu-footer > ul > li > a {
+    color: var(--dark-blue);
+    text-decoration: none;
+}
+
+.footer-social-media a {
+    text-decoration: none;
+}
+
+.footer-social-media a:hover,
+.container-menu-footer > ul > li > a:hover {
+    text-decoration: underline;
+}
+
+.agenda_9_21 {
+    background-color: #16A9C4 !important;
+    color: #ffffff !important;
+    font-family: "Montserrat", Sans-serif;
+    font-weight: bold;
+}
+
+.agenda_14_22 {
+    background-color: #006634 !important;
+    color: #ffffff !important;
+    font-family: "Montserrat", Sans-serif;
+    font-weight: bold;
+}
+
+.agenda_9_22 {
+    background-color: #F49217 !important;
+    color: #ffffff !important;
+    font-family: "Montserrat", Sans-serif;
+    font-weight: bold;
+}
+
+.agenda_fechado {
+    background: #EC99A0 !important;
+    color: #ffffff;
+    font-family: "Montserrat", Sans-serif;
+    font-weight: bold;
+}
+
+.agenda_passado {
+    background: #cccccc !important;
+    color: #ffffff;
+    font-family: "Montserrat", Sans-serif;
+    font-weight: bold;
+}
+
+.btn-conta {
+    font-family: "Montserrat", Sans-serif;
+    font-weight: 700;
+    background-color: #F39B9A !important;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 0px 0px 10px 0px rgb(0 0 0 / 22%);
+}
+
+.day{
+    padding:10px !important;
+    font-size:1.5em !important;
+    font-weight:bold;
+}
+
+.datepicker-inline {
+    width: auto !important;
+}
+
+.datepicker-switch{
+    color: var( --e-global-color-primary );
+    font-family: var( --e-global-typography-primary-font-family ), Sans-serif;
+    font-weight: var( --e-global-typography-primary-font-weight );
+    font-size:2em;
+}
+
+.table-condensed{
+    background:#eee !important;
+    width: 100% !important;
+}
+
+
+.datepicker table tr td.active,
+.datepicker table tr td.active.disabled,
+.datepicker table tr td.active.disabled:hover,
+.datepicker table tr td.active:hover {
+    background: #FECC35 !important;
+}
+
+
+
+.datepicker table tr td{
+    border:4px solid #fff;
+    font-size:1em;
+    background-color:#fff;
+}
+
+.datepicker table tr td.disabled,
+.datepicker table tr td.disabled:hover {
+    background: #F39B9A;
+    color: #fff !important;
+    cursor: default;
+}
+
+.weekend-day{
+    background-color: #17BBD5 !important;
+    color:#fff;
+}
+
+
+.week-day{
+    background-color: #17BBD5 !important;
+    color:#fff;
+}
+
+
+.bootstrap-datetimepicker-widget .weekend  {
+    color:#0047BA !important;
+}
+
+.btn-selhour{
+    color: #194A99;
+    font-family: "Montserrat", Sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.parcelas p {
+    color: #7A7A7A;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 1.05rem;
+}
+
+.form-login > p {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+}
+
+.not-member h5 {
+    font-size: 1.25rem;
+    color: #0c5460;
+}
+
+.not-member p {
+    font-size: 1rem;
+    color: #0c5460;
+}
+
+.opening-hours {
+    background-image: url('https://aprova.fgbigwheel.com.br/wp-content/uploads/2022/01/horario.png');
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position: center center;
+    background-clip: content-box;
+    border-radius: 30px;
+    min-height: 300px;
+}
+
+.opening-hours-title > p {
+    color: #FFFFFF;
+    font-family: 'Montserrat', Sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+.opening-hours-days {
+    color: #194A99 !important;
+    font-family: Montserrat, Sans-serif !important;
+    font-size: 30px !important;
+    font-weight: 600 !important;
+    line-height: 30px !important;
+    text-align: left !important;
+    padding-left: 10px !important;
+}
+
+.map-footer {
+    width: 100%;
+    height:350px;
+}
