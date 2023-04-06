@@ -1,0 +1,437 @@
+:root {
+  --background-color: white;
+  --dark-blue: #1f3648;
+  --blue: #4785ae;
+}
+
+.navbar-nav li.nav-item {
+  margin: 0.25rem !important;
+}
+
+.nav-page > .tab-content,
+.nav-page > .nav-tabs {
+  margin: 0rem !important;
+}
+
+.tab-content {
+  border-left: 1px solid #dee2e6;
+  border-right: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.accordion .card button.collapsed,
+.accordion .card button.btn-link {
+  text-decoration: none;
+}
+
+.accordion .card button.btn-link.collapsed {
+  color: black;
+}
+
+.accordion .card button.btn-link {
+  color: green;
+}
+
+.accordion .card button.collapsed:hover,
+.accordion .card button.btn-link:hover {
+  color: green;
+  text-decoration: none;
+}
+
+.finalysale {
+  background-color: #eee;
+  border-radius: 0.25rem;
+}
+
+.nowrap {
+  white-space: nowrap !important;
+}
+
+.dropdown-menu-right {
+  min-width: 20rem;
+  padding: 1rem;
+}
+
+.card {
+  border: 0px;
+  border-radius: 0.5rem;
+  box-shadow: -2px 8px 18px #0000001a;
+  height: 100%;
+}
+
+.card-img-top {
+  max-height: 16rem;
+}
+
+.carousel-inner {
+  border-radius: 0.5rem;
+  box-shadow: -2px 8px 18px #0000001a;
+}
+
+.carousel-item img {
+  height: 20rem;
+  width: 100%;
+  object-fit: cover;
+}
+
+.menu li {
+  display: block;
+}
+
+.navbar-topo li.menu-item{
+  display:inline;
+  margin-left:10px;
+}
+
+.navbar-topo li.menu-item a{
+  color:#000;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a.card {
+  color: black !important;
+}
+
+a.card:hover {
+  color: black !important;
+  text-decoration: none !important;
+}
+
+.card-body p.card-text {
+  margin-bottom: 0.75rem;
+}
+
+.event-date {
+  position: absolute;
+  right: 0.2rem;
+  top: 0.2rem;
+  color: #fff;
+  background: #000;
+  padding: 10px;
+  margin: 3px;
+  opacity: 0.8;
+  border-radius: 0.25rem;
+}
+
+.img-front-cover img {
+  height: 22rem;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0.25rem;
+}
+
+.item p {
+  margin-bottom: 0 !important;
+}
+
+select {
+  margin: 0;
+  font-family: inherit;
+  text-transform: none;
+  word-wrap: normal;
+  border-color: #6c757d40;
+  color: #6c757dcf;
+  padding: 0.45rem 0.25rem;
+  border-radius: 0.25rem;
+  width: 100%;
+}
+
+select:not(:-internal-list-box) {
+  overflow: visible !important;
+}
+
+.address p {
+  margin-bottom: 0.2rem;
+}
+
+.address {
+  word-break: break-word;
+}
+
+.form-hr {
+  padding-top: 0.5rem;
+}
+
+#categorylist .nav-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+#categorylist li::after {
+  content: ' | ';
+  margin-left: 10px;
+  color: #caccd8;
+}
+
+hr:not([size]) {
+  height: 0;
+}
+
+#button-search {
+  border-radius: 0rem 0.25rem 0.25rem 0rem;
+}
+
+/** Extra small, small and medium**/
+@media (max-width: 767px) {
+  #slider {
+    flex-direction: row-reverse;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-item img {
+    height: 14rem !important;
+  }
+  .img-front-cover img {
+    height: auto;
+    max-height: 20rem;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0.25rem;
+  }
+  .details-text {
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+  }
+}
+
+@media (max-width: 991px) {
+  .itens-head {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1500px !important;
+  }
+  .details-text {
+    max-height: 38rem;
+    overflow: auto;
+    padding-right: 1rem;
+    margin-right: 1rem;
+  }
+  .text-pickup {
+    max-height: 38rem;
+    overflow: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 920px;
+  }
+  .time-list {
+    height: 100%;
+  }
+}
+
+.container {
+  margin-top: 20px;
+}
+/*Bootstrap Calendar*/
+.datepicker {
+  border-radius: 0;
+  padding: 0;
+}
+.datepicker-days table thead,
+.datepicker-days table tbody,
+.datepicker-days table tfoot {
+  padding: 10px;
+  display: block;
+}
+.datepicker-days table thead,
+.datepicker-months table thead,
+.datepicker-years table thead,
+.datepicker-decades table thead,
+.datepicker-centuries table thead {
+  background: grey;
+  color: #ffffff;
+  border-radius: 0.25rem 0.25rem 0rem 0rem;
+}
+.datepicker-days table thead tr:nth-child(2n + 0) td,
+.datepicker-days table thead tr:nth-child(2n + 0) th {
+  border-radius: 3px;
+}
+.datepicker-days table thead tr:nth-child(3n + 0) {
+  text-transform: uppercase;
+  font-weight: 300 !important;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.table-condensed > tbody > tr > td,
+.table-condensed > tbody > tr > th,
+.table-condensed > tfoot > tr > td,
+.table-condensed > tfoot > tr > th,
+.table-condensed > thead > tr > td,
+.table-condensed > thead > tr > th {
+  padding: 11px 13px;
+}
+.datepicker-months table thead td,
+.datepicker-months table thead th,
+.datepicker-years table thead td,
+.datepicker-years table thead th,
+.datepicker-decades table thead td,
+.datepicker-decades table thead th,
+.datepicker-centuries table thead td,
+.datepicker-centuries table thead th {
+  border-radius: 0;
+}
+.datepicker td,
+.datepicker th {
+  border-radius: 50%;
+  padding: 0 12px;
+}
+
+.datepicker table tr td.active,
+.datepicker table tr td.active:hover,
+.datepicker table tr td.active.disabled,
+.datepicker table tr td.active.disabled:hover {
+  background-image: none;
+}
+.datepicker .prev,
+.datepicker .next {
+  color: rgba(255, 255, 255, 0.5);
+  transition: 0.3s;
+  width: 37px;
+  height: 37px;
+}
+.datepicker .prev:hover,
+.datepicker .next:hover {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.99);
+  font-size: 21px;
+}
+.datepicker .datepicker-switch {
+  font-size: 24px;
+  font-weight: 400;
+  transition: 0.3s;
+}
+.datepicker .datepicker-switch:hover {
+  color: rgba(255, 255, 255, 0.7);
+  background: transparent;
+}
+.datepicker table tr td span {
+  border-radius: 2px;
+  margin: 3%;
+  width: 27%;
+}
+.datepicker table tr td span.active,
+.datepicker table tr td span.active:hover,
+.datepicker table tr td span.active.disabled,
+.datepicker table tr td span.active.disabled:hover {
+  background-color: grey;
+  background-image: none;
+}
+.dropdown-menu {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+}
+.datepicker-dropdown.datepicker-orient-top:before {
+  border-top: 7px solid rgba(0, 0, 0, 0.1);
+}
+
+.datepicker.datepicker-inline td,
+.datepicker.datepicker-inline th,
+.datepicker.dropdown-menu td,
+.datepicker.dropdown-menu th {
+  padding: 0.35rem 0.75rem !important;
+}
+
+.datepicker-inline {
+  width: 100% !important;
+}
+
+.table-condensed {
+  box-shadow: 2px 9px 18px #0000001a;
+}
+
+.datepicker table {
+  border-radius: 0rem 0rem 0.25rem 0.25rem;
+}
+
+.datepicker tfoot {
+  text-align: -webkit-center;
+}
+
+.datepicker .datepicker-switch {
+  white-space: nowrap;
+}
+
+.time-list {
+  overflow: auto;
+  max-height: 26rem;
+  box-shadow: 2px 9px 18px #0000001a;
+}
+
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgb(181 181 181);
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #e0e0e0;
+}
+
+/*Calendário */
+
+.datepicker-inline {
+  width: 100% !important;
+}
+
+.datepicker-days .table-condensed,
+.datepicker-months .table-condensed,
+.datepicker-years .table-condensed,
+.datepicker-centuries .table-condensed,
+.datepicker-decades .table-condensed {
+  width: 100%;
+  max-width: 20rem;
+  height: 22rem;
+}
+
+.datepicker.datepicker-inline {
+  padding: 0 !important;
+}
+
+.address iframe,
+.midia iframe {
+  width: 100% !important;
+}
+
+.col.col-data {
+  text-align: -webkit-center;
+}
+
+#nav-tab {
+  flex-flow: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+#nav-tab::-webkit-scrollbar {
+  height: .5rem;
+}
+
+.navbar-brand .img-fluid {
+	max-height: 4.5rem
+}
+
+ul.menu {
+    padding-left: 0rem;
+}
+
+.event-date {
+	text-transform: uppercase
+}
+
+.eventlocaldate {
+	text-transform: uppercase
+}
