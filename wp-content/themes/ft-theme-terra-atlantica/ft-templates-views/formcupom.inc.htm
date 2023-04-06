@@ -1,0 +1,17 @@
+
+{% if (desativar_cupom!='S') %}
+    <div class="row">
+        <div class="col-lg-10 col-12">
+            <div class="input-group" style="border-radius: 2rem;background-color: #e7e8e3;">
+                <input type="text" class="form-control" name="cupom" id="cupom" placeholder="Possui cupom? Informe seu código" value="" style="background-color:#e7e8e3;border: none;border-top-left-radius: 1.5rem;border-bottom-left-radius: 1.5rem;">
+                <div class="input-group-append p-2">
+                    <button class="btn btn-search" type="subnmit" id="button-addon1"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if (event.msg_validate) %}
+    <div id="result-cupom" class="alert alert-{{ (event.validate_status=='OK')? "success" : "danger" }}">
+        {{ event.msg_validate }}</div>
+    {% endif %}
+{% endif %}

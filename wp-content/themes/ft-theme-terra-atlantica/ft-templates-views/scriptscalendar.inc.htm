@@ -1,0 +1,26 @@
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.standalone.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/locales/bootstrap-datepicker.pt-BR.min.js"></script>
+<script>
+    //Renderiza o calendário
+    
+    {% if (event.date_blocked) %}
+    var disabledDates = ['{{ event.date_blocked|join("', '") }}'];
+    {% else %}
+    var disabledDates = [];
+    {% endif %}
+    $('#calendario-agendamento').datepicker({
+        format: "dd/mm/yyyy",
+        language: "pt-BR",
+        orientation: 'auto',
+        todayHighlight: true,
+        startDate: "{{ now|date_modify('+1 day')|date('d/m/Y') }}",
+        endDate: "{{ date_visit_end }}",
+        daysOfWeekDisabled: [{{ week_block }}],
+        datesDisabled: disabledDates
+    });
+    
+    {% if (date_visit) %}
+    $("#calendario-agendamento").datepicker("setDate", '{{date_visit}}');
+    {% endif %}
+</script>

@@ -1,0 +1,164 @@
+{% if (event.title) %}
+
+<script>
+	eventViewFBPixel('{{ event.title }}');
+</script>
+<div class="offset-lg-1 col-lg-10 col-12 pt-5">
+	
+	{% if (partner.id) %}
+	<div class="alert alert-success h4">Parabéns! você chegou até aqui através de <b>{{partner.name}}</b></div>
+	{% endif %}
+	<div class="row">
+		<div class="col-md-12 col-lg-12 my-4 nav-page">
+			<div class="tab-content" id="nav-tabContent">
+				<div class="tab-pane fade show active" id="nav-tickets" role="tabpanel" aria-labelledby="nav-tickets-tab">
+					<form name="frm-event" id="frm-event" action="#" method="POST">
+						<div class="row p-4 justify-content-end">
+							
+							{# START if vendas #}
+							{% if (vendas_off == 'S') %}
+							<div class="alert alert-info text-center">Aguarde abertura das vendas online.</div>
+							{% else %}
+							
+							{# START if calendar #}
+							{% if (event.required_scheduling == 'S' or force_calendar=='S' ) %}
+							<div class="col-lg-4 px-4 col-12">
+								<div class="row">
+									<div class="{{event.timetable=='S' ? 'col-lg-6' : 'col'}} mt-2 col-data">
+										<h6 class="pe-2 fw-bolder">
+											<img src="https://terraatlantica.com.br/wp-content/themes/ft-theme-terra-atlantica/assets/img/icone_calendario.png">
+											Data
+											<img src="https://terraatlantica.com.br/wp-content/themes/ft-theme-terra-atlantica/assets/img/seta_seguir_compra.png" style="float:right;">
+										</h6>
+										<div class="mt-4" id="calendario-agendamento" data-timetable="{{ event.timetable }}" data-ide="{{ event.id }}"></div>
+										<div class="subtitle p-2 ms-2 mt-2">
+											<p>
+											</p><div class="sub-selection"></div> Data selecionada<p></p>
+											<p>
+											</p><div class="sub-today"></div> Data atual<p></p>
+											<p>
+											</p><div class="sub-close"></div> Parque fechado<p></p>
+										</div>
+									</div>
+									
+									{# START if timetable #}
+									{% if (event.timetable == 'S') %}
+									<div class="col mt-md-2 mt-4  mr-md-5 col-hour">
+										<h4>
+											<span class="badge badge-secondary"></span> Selecione a hora
+										</h4>
+										<div class="mt-4 time-list">
+											<div id="agenda-horarios" class="d-flex flex-wrap">
+												{% include "selectionhour.inc.htm" %}
+											</div>
+										</div>
+									</div>
+									{# END if timetable #}
+									{% endif %}
+								</div>
+							</div>
+							{{ include ('scriptscalendar.inc.htm') }}
+							{# END if calendar #}
+							{% endif %}
+							{# Lista de planos #}
+							<div class="col-lg-4 px-4 mt-md-2 mt-4 productselection">
+								<h6 class="pe-2 fw-bolder">
+									<img src="https://terraatlantica.com.br/wp-content/themes/ft-theme-terra-atlantica/assets/img/icone_ingressos.png">
+									Quantidade
+									<img src="https://terraatlantica.com.br/wp-content/themes/ft-theme-terra-atlantica/assets/img/seta_seguir_compra.png" style="float:right;">
+								</h6>
+								
+								{% if (date_visit) %}
+								<h5 class="py-3">
+									Data da visita: <b><span id="data_visita_view">{{ date_visit }}</span></b>
+									<span id="hora_visita_view">{{ (hour_visit) ? hour_visit|date('H:i'):'' }}</span>
+								</h5>
+								{% endif %}
+								<div id="product-list">
+									{% include "productlist.inc.htm" %}
+								</div>
+							</div>
+							<div class="col-lg-4 px-5">
+								<h6 class="fw-bolder">
+									<img src="https://terraatlantica.com.br/wp-content/themes/ft-theme-terra-atlantica/assets/img/icone_cartao.png">
+									Finalizar compra
+								</h6>
+								{% include "finalysale.inc.htm" %}
+							</div>
+							{# END if vendas #}
+							{% endif %}
+						</div>
+					</form>
+				</div>
+				<div class="tab-pane fade" id="nav-details" role="tabpanel" aria-labelledby="nav-details-tab">
+					<div class="row p-4">
+						<div class="col-lg-7">
+							<div class="details-text">
+								{{ event.description }}
+							</div>
+						</div>
+						<div class="col-lg-5 address">
+							<h2>Local</h2>
+							<h5>{{event.local}}</h5>
+							<p>{{event.address}}, {{ event.district}}</p>
+							<p>{{event.city}}/{{event.state}} | CEP: {{event.zipcode}}</p>
+							
+							{% if (event.local_site) %}
+							<a href="{{ event.local_site }}" target="_blank"
+							rel="noopener noreferrer">{{ event.local_site }}</a>
+							{% endif %}
+							<div class="mt-2">
+								{{event.embeb_map}}
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				{# START if video/audio embed #}
+				{% if (event.video_embed or event.audio_embed) %}
+				<div class="tab-pane fade" id="nav-midia" role="tabpanel" aria-labelledby="nav-midia-tab">
+					<div class="row p-4">
+						<div class="col-lg-12">
+							<div class="row midia text-center">
+								
+								{% if (event.audio_embed) %}
+								<div class="col-lg-6">{{event.audio_embed}}</div>
+								{% endif %}
+								{% if (event.video_embed) %}
+								<div class="col-lg-6">{{event.video_embed}}</div>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+				{# END if video/audio embed #}
+				{% endif %}
+				
+				{% if (event.ticketpickup) %}
+				<div class="tab-pane fade" id="nav-ticketpickup" role="tabpanel" aria-labelledby="nav-ticketpickup-tab">
+					<div class="row p-4">
+						<div class="col-lg-12">
+							<h2>
+								Retirada de ingressos <span class="badge badge-secondary">{{event.ticketpickup}}</span>
+							</h2>
+							<div class="text-pickup">
+								{{event.ticketpickup_description}}
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</offset-lg-1 col-lg-10 col-12 pt-5v>
+
+{% if (scripts) %}
+
+{% for content in scripts %}
+{{ content|raw }}
+{% endfor %}
+{% endif %}
+{% else %}
+<div class="alert alert-info">Não disponível no momento!</div>
+{% endif %}

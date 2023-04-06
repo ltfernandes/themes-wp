@@ -1,0 +1,85 @@
+{% if (event.plans.status=='FAIL') %}
+<div class="alert alert-info msg-horario">{{ event.plans.msg }}</div>
+{% else %}
+
+{% if (event.plans) %}
+{% include "formcupom.inc.htm" %}
+{% for index_plan,plan in event.plans %}
+<div class="row pt-2 pb-2 item products" ga-id="{{ index_plan }}" ga-name="{{ plan.plan }}" ga-price="{{ plan.price }}">
+    <div class="col-lg-10 col-12 align-self-center pt-2 plano">
+        <b class="text-uppercase plan-name">{{ plan.plan }} {{ (plan.batch)? ' - '~plan.batch : '' }}</b>
+        {{ (plan.convenio.id) ? "<div class='badge badge-success'><i class='fa fa-star'></i> com desconto do cartão</div>" : "" }}
+        {{ (plan.coupon_apply) ? "<div class='badge badge-success'>#"~cupom~"</div>" : "" }}
+    </div>
+    <div class="col-lg-6 col-6 align-self-center valor_plano" rel-valor="{{ plan.price }}">
+        <b class="valor_plano" rel-valor="{{ plan.price|number_format(2,',','.') }}">
+
+            {% if (plan.price_old > plan.price) %}
+            <small>
+                de <span style="text-decoration: line-through;">R${{ plan.price_old|number_format(2,',','.') }}</span>
+            </small>
+            Por
+            {% endif %}
+            R${{ plan.price|number_format(2,',','.') }}
+        </b>
+        <br>
+
+        <!-- Button trigger modal -->
+        {% if (plan.description) %}
+        <button type="button" class="btn btn-sm btn-mais-info text-uppercase" data-bs-toggle="modal" data-bs-target="#plan-description-{{ index_plan }}">
+            + Info
+        </button>
+        {% include "modal-plan-description.htm" %}
+        {% endif %}
+    </div>
+    <div class="col-lg-4 col-6 align-self-end text-center">
+
+        {% if (plan.exhausted == 'S') %}
+        <div class="plan-exhausted badge badge-danger">ESGOTADO</div>
+        {% elseif (plan.mapped == 'S') %}
+        {% include "localmark-quant.inc.htm" %}
+        {% else %}
+        {% include "select-quant.inc.htm" %}
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+<script>
+    $(".plano_quant").change(function () {
+        calcTotalcompra($(this));
+        var value = $(this).val();
+
+        if(value){
+            var id = $(this).attr('rel-id');
+            selecionadoGA(id);
+            selecionadoFBPixel();
+        }
+    });
+
+    $('.btn-carrinho').on('click', function(){
+        var acao = $(this).data('acao');
+        var prodId = $(this).data('id');
+        var qtdAtual = parseInt($('#quant_' + prodId).val());
+        
+        if(acao === 'ADD') {
+            var qtdMax = parseInt($('#quant_' + prodId).attr('maxlength'));
+            
+            if(qtdAtual + 1 <= qtdMax){
+                $('#quant_' + prodId).val(qtdAtual + 1);
+                calcTotalcompra();
+            }
+        } else if(acao === 'DEL'){
+            
+            if(qtdAtual - 1 >= 0){
+                $('#quant_' + prodId).val(qtdAtual - 1);
+                calcTotalcompra();
+            }
+        }
+    })
+</script>
+{% elseif (event.msg) %}
+<div class="alert alert-info msg-horario">{{event.msg}}</div>
+{% else %}
+<div class="alert alert-info msg-horario">Nenhum plano disponível no momento!</div>
+{% endif %}
+{% endif %}
